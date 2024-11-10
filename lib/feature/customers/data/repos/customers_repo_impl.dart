@@ -140,6 +140,22 @@ class CustomersRepoImpl implements CustomersRepo {
     }
   }
 
+ @override
+  Future<Either<Failure,Response>> disAttachCustomer({required num customerId,required num bagId}) async{
+    try{
+      var response = await dioHelper.deleteData(endPoint: '/qr/delete',query: {
+        'customer_id':customerId,
+        'bag_id':bagId
+      });
+      return right(response);
+    }catch(e){
+      if(e is DioException){
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
   @override
   Future<Either<Failure, Response>> inActiveCustomerStatus(
       {required num id}) async{

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constant.dart';
@@ -37,7 +38,6 @@ class _CustomerCardState extends State<CustomerCard> {
               }
             },
             builder: (context, state) {
-              if (state is GetCustomersSuccess) {}
               return Container(
                 width: 390.w,
                 padding: EdgeInsets.only(
@@ -95,7 +95,7 @@ class _CustomerCardState extends State<CustomerCard> {
                       height: 40,
                       width: 40.w,
                       child: DropdownButtonFormField(
-                        value: widget.customerCubit.newDriver,
+                          value: widget.customerCubit.newDriver,
                           isExpanded: true,
                           iconSize: 5.sp,
                           isDense: true,
@@ -103,15 +103,25 @@ class _CustomerCardState extends State<CustomerCard> {
                             'Select Driver',
                             style: TextStyle(fontSize: 3.sp),
                           ),
-                          items: drivers.sublist(1, drivers.length)
-                              .map<DropdownMenuItem<String>>(
-                            (String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            },
-                          ).toList(),
+                          items: drivers.length > 1
+                              ? drivers
+                                  .sublist(1, drivers.length)
+                                  .map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  },
+                                ).toList()
+                              : [""].map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  },
+                                ).toList(),
                           onChanged: (val) {
                             widget.customerCubit.newDriver = val!;
                           }),
@@ -119,6 +129,142 @@ class _CustomerCardState extends State<CustomerCard> {
                     CustomUnderLineTextField(
                       controller: widget.editLocationController,
                       hint: 'Address',
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        widget.customerCubit.allCustomersModel
+                                .data[widget.index].bags.isNotEmpty
+                            ? Text(
+                                "Dis-attach: ",
+                                style: TextStyle(
+                                    fontSize: 3.sp, color: Colors.black),
+                              )
+                            : const SizedBox(),
+                        widget.customerCubit.allCustomersModel
+                                .data[widget.index].bags.isNotEmpty
+                            ? TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            title: Text(
+                                                style:
+                                                    TextStyle(fontSize: 4.sp),
+                                                "Are you sure you want to dis-attach  \nthis customer from bag which id ${widget.customerCubit.allCustomersModel.data[widget.index].bags[0]}?"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        fontSize: 3.5.sp,
+                                                        color: Colors.black),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    widget.customerCubit
+                                                        .disAttachCustomer(
+                                                            customerId: widget
+                                                                .customerCubit
+                                                                .allCustomersModel
+                                                                .data[widget
+                                                                    .index]
+                                                                .id,
+                                                            bagId: widget
+                                                                .customerCubit
+                                                                .allCustomersModel
+                                                                .data[widget
+                                                                    .index]
+                                                                .bags[0]);
+                                                  },
+                                                  child: Text(
+                                                    "Dis-attach",
+                                                    style: TextStyle(
+                                                        color: kOnWayColor,
+                                                        fontSize: 3.5.sp),
+                                                  )),
+                                            ],
+                                          ));
+                                },
+                                child: Text(
+                                    '${widget.customerCubit.allCustomersModel.data[widget.index].bags[0]}',
+                                    style: TextStyle(
+                                      color: kOnWayColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 3.sp,
+                                    )),
+                              )
+                            : const SizedBox(),
+                        widget.customerCubit.allCustomersModel
+                                    .data[widget.index].bags.length >
+                                1
+                            ? TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            title: Text(
+                                                style:
+                                                    TextStyle(fontSize: 4.sp),
+                                                "Are you sure you want to dis-attach  \nthis customer from bag which id ${widget.customerCubit.allCustomersModel.data[widget.index].bags[1]}?"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                    "Cancel",
+                                                    style: TextStyle(
+                                                        fontSize: 3.5.sp,
+                                                        color: Colors.black),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    widget.customerCubit
+                                                        .disAttachCustomer(
+                                                            customerId: widget
+                                                                .customerCubit
+                                                                .allCustomersModel
+                                                                .data[widget
+                                                                    .index]
+                                                                .id,
+                                                            bagId: widget
+                                                                .customerCubit
+                                                                .allCustomersModel
+                                                                .data[widget
+                                                                    .index]
+                                                                .bags[0]);
+                                                  },
+                                                  child: Text(
+                                                    "Dis-attach",
+                                                    style: TextStyle(
+                                                        color: kOnWayColor,
+                                                        fontSize: 3.5.sp),
+                                                  )),
+                                            ],
+                                          ));
+                                },
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero)),
+                                child: Text(
+                                    '${widget.customerCubit.allCustomersModel.data[widget.index].bags[1]}',
+                                    style: TextStyle(
+                                      color: kOnWayColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 3.sp,
+                                    )),
+                              )
+                            : const SizedBox()
+                      ],
                     ),
                     SizedBox(
                       height: 10.h,
@@ -179,25 +325,25 @@ class _CustomerCardState extends State<CustomerCard> {
                                             style: TextStyle(fontSize: 4.sp),
                                             "Are you sure you want to delete \n${widget.customerCubit.allCustomersModel.data[widget.index].name}?"),
                                         actions: [
-
                                           TextButton(
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
                                               child: Text(
                                                 "Cancel",
-                                                style:
-                                                    TextStyle(fontSize: 3.5.sp,color: Colors.black),
+                                                style: TextStyle(
+                                                    fontSize: 3.5.sp,
+                                                    color: Colors.black),
                                               )),
                                           TextButton(
                                               onPressed: () async {
                                                 await widget.customerCubit
                                                     .deleteCustomer(
-                                                    id: widget
-                                                        .customerCubit
-                                                        .allCustomersModel
-                                                        .data[widget.index]
-                                                        .id);
+                                                        id: widget
+                                                            .customerCubit
+                                                            .allCustomersModel
+                                                            .data[widget.index]
+                                                            .id);
                                               },
                                               child: Text(
                                                 "Delete",
@@ -223,7 +369,19 @@ class _CustomerCardState extends State<CustomerCard> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 5.sp,
+                    ),
+                    if (state is DisAttachCustomerLoadingState)
+                      const SizedBox(
+                        width: 20,
+                        height: 10,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.lineScale,
+                          colors: [kPrimaryColor, kSecondaryColor],
+                        ),
+                      )
                   ],
                 ),
               );
@@ -342,7 +500,7 @@ class _CustomerCardState extends State<CustomerCard> {
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Address: ', style: TextStyle()),
+                          Text('Address: ', style: TextStyle(fontSize: 3.5.sp)),
                           GestureDetector(
                             onTap: () async {
                               if (await canLaunchUrl(Uri.parse(widget
@@ -359,10 +517,11 @@ class _CustomerCardState extends State<CustomerCard> {
                                 throw 'Could not launch $widget.customerCubit.allCustomersModel.data[widget.index].address';
                               }
                             },
-                            child: const Text(
+                            child: Text(
                               'See on Map',
                               style: TextStyle(
                                 color: Colors.blue,
+                                fontSize: 3.sp,
                                 decoration: TextDecoration.underline,
                               ),
                             ),
@@ -385,12 +544,14 @@ class _CustomerCardState extends State<CustomerCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     widget.customerCubit.allCustomersModel.data[widget.index]
-                        .bags.isNotEmpty?  Text(
-                        'Bags ID: ${widget.customerCubit.allCustomersModel.data[widget.index].bags[0]}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 3.sp,
-                        )):const SizedBox(),
+                            .bags.isNotEmpty
+                        ? Text(
+                            'Bags ID: ${widget.customerCubit.allCustomersModel.data[widget.index].bags[0]}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 3.sp,
+                            ))
+                        : const SizedBox(),
                     widget.customerCubit.allCustomersModel.data[widget.index]
                                 .bags.length >
                             1
@@ -423,7 +584,8 @@ class _CustomerCardState extends State<CustomerCard> {
                             .address;
                         widget.editDriverController.text = widget.customerCubit
                             .allCustomersModel.data[widget.index].name;
-                        widget.customerCubit.newDriver = widget.customerCubit.allCustomersModel.data[widget.index].driverName;
+                        widget.customerCubit.newDriver = widget.customerCubit
+                            .allCustomersModel.data[widget.index].driverName;
                         setState(() {
                           isEdit = !isEdit;
                         });

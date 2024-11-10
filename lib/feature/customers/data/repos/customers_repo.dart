@@ -23,4 +23,7 @@ abstract class CustomersRepo {
 
   Future<Either<Failure, Response>> activeCustomer({ required num id});
 
+  Future<Either<Failure, Response>> disAttachCustomer({required num customerId,required num bagId});
+
   Future<Either<Failure,Response>>editCustomer({required num driverId,required String phoneNumber,required String name,required String location,required num id});}
+

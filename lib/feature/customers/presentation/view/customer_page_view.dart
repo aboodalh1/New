@@ -5,7 +5,6 @@ import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.da
 import 'package:qrreader/feature/customers/presentation/view/desktop_customer_page.dart';
 import 'package:qrreader/feature/customers/presentation/view/mobile_customer_page.dart';
 import 'package:qrreader/feature/customers/presentation/view/tablet_customer_page.dart';
-import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 
 class CustomerPageView extends StatelessWidget {
   const CustomerPageView({super.key});

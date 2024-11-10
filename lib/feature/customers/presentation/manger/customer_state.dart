@@ -90,3 +90,17 @@ final class DeleteCustomerFailureState extends CustomerState {
 
   DeleteCustomerFailureState({required this.error});
 }
+
+final class DisAttachCustomerLoadingState extends CustomerState {}
+
+final class DisAttachCustomerSuccessState extends CustomerState {
+  final String message;
+
+  DisAttachCustomerSuccessState({required this.message});
+}
+
+final class DisAttachCustomerFailureState extends CustomerState {
+  final String error;
+
+  DisAttachCustomerFailureState({required this.error});
+}

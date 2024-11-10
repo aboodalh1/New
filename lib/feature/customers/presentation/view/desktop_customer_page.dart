@@ -54,9 +54,18 @@ class DesktopCustomerPage extends StatelessWidget {
             if (Navigator.of(context).canPop()) {
               Navigator.of(context).pop();
             }
-            customSnackBar(context, state.message);
           }
           if (state is AddCustomersFailure) {
+            customSnackBar(context, state.error,
+                duration: 10, color: kOnWayColor);
+          }   if (state is DisAttachCustomerSuccessState) {
+            customSnackBar(context, state.message,
+                duration: 10, );
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          }
+          if (state is DisAttachCustomerFailureState) {
             customSnackBar(context, state.error,
                 duration: 10, color: kOnWayColor);
           }

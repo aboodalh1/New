@@ -142,6 +142,18 @@ class CustomerCubit extends Cubit<CustomerState> {
     });
   }
 
+
+  Future<void> disAttachCustomer({required num customerId,required num bagId}) async {
+    emit(DisAttachCustomerLoadingState());
+    var result = await customersRepo.disAttachCustomer(bagId: bagId,customerId:customerId );
+    result.fold((failure) {
+      emit(DisAttachCustomerFailureState(error: failure.errMessage));
+    }, (r) {
+      emit(DisAttachCustomerSuccessState(message: r.data['message']));
+      getAllCustomers(role: 'all');
+    });
+  }
+
   bool isExpand = false;
 
   void expandButton() {

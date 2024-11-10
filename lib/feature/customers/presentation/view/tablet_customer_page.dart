@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:qrreader/core/widgets/tablet/tablet_custom_loading_indicator.dart';
 import 'package:qrreader/feature/customers/presentation/view/widgets/tablet/tablet_customer_grid.dart';
+import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 
 import '../../../../constant.dart';
 import '../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
+import '../../../../core/widgets/desktop/desktop_custom_loading_indicator.dart';
 import '../../../home_page/presentation/view/widgets/desktop/custom_search_bar.dart';
 import '../manger/customer_cubit.dart';
 
@@ -13,6 +16,36 @@ class TabletCustomerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<UserCubit, UserState>(
+  listener: (context, state) {
+  },
+  builder: (context, state) {
+    if (state is GetUsersLoadingState) {
+      return Center(
+        child: TabletLoadingIndicator(),
+      );
+    }
+    if (state is GetUsersFailureState) {
+      return Scaffold(
+          body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(state.error,style: TextStyle(fontSize: 4.sp),),
+                  SizedBox(height: 10.h,),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(kPrimaryColor)),
+                      onPressed: () {
+                        context.read<UserCubit>().getAllUser(role: 'driver');
+                      },
+                      child: const Text('Try Again',style: TextStyle(
+                          color: Colors.white
+                      ),)),
+                ],
+              )));
+    }
     return BlocConsumer<CustomerCubit, CustomerState>(
         listener: (context, state) {
       if (state is GetCustomersSuccess) {
@@ -171,5 +204,7 @@ class TabletCustomerPage extends StatelessWidget {
         ),
       );
     });
+  },
+);
   }
 }
