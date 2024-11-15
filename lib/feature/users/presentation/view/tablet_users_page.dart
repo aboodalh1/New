@@ -72,15 +72,8 @@ class TabletUsersPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width:ScreenSizeUtil.screenWidth*0.3,height:ScreenSizeUtil.screenWidth/20,child: SearchBar(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                    elevation: MaterialStateProperty.all(0),
-                    leading: const Icon(Icons.search),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                    side: MaterialStateProperty.all(const BorderSide(color: Colors.black,width: 0.7)),
-                  )),
-                  const SizedBox(
-                    width: 20,
+                  SizedBox(
+                    width: 20.w,
                   ),
                   CustomElevatedButton(
                     title: 'Filter',

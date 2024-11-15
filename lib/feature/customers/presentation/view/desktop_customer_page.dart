@@ -69,8 +69,14 @@ class DesktopCustomerPage extends StatelessWidget {
             customSnackBar(context, state.error,
                 duration: 10, color: kOnWayColor);
           }
+          if (state is EditCustomerSuccess) {
+            customSnackBar(context, state.message,
+                duration: 10);
+          }
           if (state is SearchCustomersFailure) {
-            customSnackBar(context, state.error);
+            customSnackBar(context, state.error,color: kOnWayColor);
+          }  if (state is EditCustomerFailure) {
+            customSnackBar(context, state.error,color: kOnWayColor,duration: 10);
           }
           if (state is GetCustomersLoading) {
             context.read<UserCubit>().getAllUser(role: 'driver');
@@ -78,7 +84,7 @@ class DesktopCustomerPage extends StatelessWidget {
         }, builder: (context, state) {
           if (state is GetCustomersLoading ||
               state is GetCustomerByDriverLoadingState ||
-              state is AddCustomersLoading ||
+              state is AddCustomersLoading || state is EditCustomerLoading ||
               state is DeleteCustomerLoadingState) {
             return const Center(
               child:DesktopLoadingIndicator()

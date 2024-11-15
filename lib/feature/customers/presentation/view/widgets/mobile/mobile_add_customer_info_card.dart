@@ -100,6 +100,11 @@ class _MobileAddCustomerInformationCardState
                   height: 30,
                   width: 100.w,
                   child: DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                    ),
                       iconSize: 10.sp,
                       isExpanded: true,
                       style: TextStyle(fontSize: 10.sp),
@@ -107,9 +112,16 @@ class _MobileAddCustomerInformationCardState
                         'Select Driver',
                         style: TextStyle(fontSize: 8.sp),
                       ),
-                      items:  drivers.sublist(1, drivers.length)
+                      items: drivers.length>1? drivers.sublist(1, drivers.length)
                           .map<DropdownMenuItem<String>>(
                         (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        },
+                      ).toList():[''].map<DropdownMenuItem<String>>(
+                            (String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),

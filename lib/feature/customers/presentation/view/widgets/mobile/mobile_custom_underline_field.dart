@@ -29,10 +29,12 @@ class MobileCustomUnderLineTextField extends StatelessWidget {
           cursorErrorColor: kPrimaryColor,
           decoration:
           InputDecoration(
-            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
             hoverColor: kPrimaryColor,
             focusColor: kPrimaryColor,
-              hintText: hint, hintStyle:TextStyle(fontSize: 8.sp),border: const UnderlineInputBorder()),
+              hintText: hint, hintStyle:TextStyle(fontSize: 8.sp),),
         ),
       ),
     );

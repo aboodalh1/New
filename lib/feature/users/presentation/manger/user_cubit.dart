@@ -195,7 +195,17 @@ class UserCubit extends Cubit<UserState> {
 
     uploadInput.onChange.listen((event) {
       final files = uploadInput.files;
-      final file = files![0];
+      if (files == null || files.isEmpty) {
+        print("No file selected");
+        return;
+      }
+
+      final file = files[0];
+
+      if (file.type != "image/png" && file.type != "image/jpeg" && file.type != "image/jpg") {
+        emit(UploadErrorState(error: "The picture must be .png, .jpg, .jpeg"));
+        return;
+      }
       final reader = html.FileReader();
 
       reader.onLoadEnd.listen((event) {

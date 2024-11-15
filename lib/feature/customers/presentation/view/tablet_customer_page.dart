@@ -54,6 +54,28 @@ class TabletCustomerPage extends StatelessWidget {
       if (state is GetCustomersFailure) {
         customSnackBar(context, state.error, color: kOnWayColor);
       }
+      if (state is EditCustomerSuccess) {
+        customSnackBar(context, state.message);
+      }
+      if (state is EditCustomerFailure) {
+        customSnackBar(context, state.error, color: kOnWayColor);
+      }
+      if (state is AddCustomersSuccess) {
+        customSnackBar(context, state.message);
+      }
+      if (state is DeleteCustomerSuccessState) {
+        if(Navigator.of(context).canPop()){Navigator.of(context).pop();}
+        customSnackBar(context, state.message);
+      }
+      if (state is DeleteCustomerFailureState) {
+        customSnackBar(context, state.error,color:kOnWayColor,duration: 20 );
+      }
+      if (state is AddCustomersFailure) {
+        customSnackBar(context, state.error,color:kOnWayColor,duration: 20 );
+      }
+      if (state is EditCustomerFailure) {
+        customSnackBar(context, state.error,color:kOnWayColor,duration: 20 );
+      }
     }, builder: (context, state) {
       if (state is GetCustomersLoading ||
           state is DeleteCustomerLoadingState ||

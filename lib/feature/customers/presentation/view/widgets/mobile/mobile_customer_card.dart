@@ -97,7 +97,11 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                   height: 30,
                   width: 100.w,
                   child: DropdownButtonFormField(
-                      value: widget.customerCubit.newDriver,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+                    ),
                       iconSize: 10.sp,
                       style: TextStyle(fontSize: 10.sp),
                       hint: Text(
@@ -105,9 +109,16 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                         style: TextStyle(fontSize: 5.sp),
                       ),
                       isExpanded: true,
-                      items:  drivers.sublist(1, drivers.length)
+                      items:  drivers.length>1? drivers.sublist(1, drivers.length)
                           .map<DropdownMenuItem<String>>(
-                        (String value) {
+                            (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        },
+                      ).toList():[''].map<DropdownMenuItem<String>>(
+                            (String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),

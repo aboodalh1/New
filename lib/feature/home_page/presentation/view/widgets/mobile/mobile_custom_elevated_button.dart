@@ -27,7 +27,7 @@ class MobileCustomElevatedButton extends StatelessWidget {
       child:  Text(
         title,
         style: TextStyle(
-            fontSize: 12.sp, fontWeight: FontWeight.w300, color: fill?Colors.white:kPrimaryColor),
+            fontSize: 11.sp, fontWeight: FontWeight.w300, color: fill?Colors.white:kPrimaryColor),
       ),
     );
   }

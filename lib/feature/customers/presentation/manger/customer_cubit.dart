@@ -115,7 +115,7 @@ class CustomerCubit extends Cubit<CustomerState> {
     if (phoneNumber.startsWith('0')) {
       phoneNumber = phoneNumber.substring(1);
     } else {
-      emit(AddCustomersLoading());
+      emit(EditCustomerLoading());
       var result = await customersRepo.editCustomer(
           driverId: mapDrivers[newDriver]??0,
           phoneNumber: phoneNumber,
@@ -123,9 +123,9 @@ class CustomerCubit extends Cubit<CustomerState> {
           name: name,
           id: id);
       result.fold((failure) {
-        emit(GetCustomersFailure(error: failure.errMessage));
+        emit(EditCustomerFailure(error: failure.errMessage));
       }, (r) {
-        emit(GetCustomersSuccess(message: r.data['message']));
+        emit(EditCustomerSuccess(message: r.data['message']));
         getAllCustomers(role: 'all');
       });
     }

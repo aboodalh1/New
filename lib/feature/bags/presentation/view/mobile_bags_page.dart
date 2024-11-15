@@ -115,6 +115,7 @@ class MobileBagsPage extends StatelessWidget {
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4, mainAxisExtent: 200),
                         itemBuilder: (context, index) => AvailableBagsItem(
+                          isDesktop: false,
                           bagsCubit: bagsCubit,
                           index: index,
                         ))

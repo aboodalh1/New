@@ -19,7 +19,7 @@ class AddUserPageView extends StatelessWidget {
       if (ScreenSizeUtil.screenWidth <= 600) {
         return BlocProvider.value(
           value: userCubit,
-          child: const MobileAddUserPage(),
+          child:  MobileAddUserPage(isEdit: isEdit,),
         );
       }
       if (ScreenSizeUtil.screenWidth <= 1000) {

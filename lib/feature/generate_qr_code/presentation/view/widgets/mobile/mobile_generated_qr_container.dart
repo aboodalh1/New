@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../../../constant.dart';
 import '../../../manger/generate_qr_cubit.dart';
 
-class MobileGeneratedQrContainer extends StatelessWidget {
+class MobileGeneratedQrContainer extends StatefulWidget {
   const MobileGeneratedQrContainer({
     super.key,
     required this.generateQrCubit,
@@ -14,9 +15,23 @@ class MobileGeneratedQrContainer extends StatelessWidget {
   final GenerateQrCubit generateQrCubit;
 
   @override
+  State<MobileGeneratedQrContainer> createState() => _MobileGeneratedQrContainerState();
+}
+
+class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1));
+    context.read<GenerateQrCubit>().printContainer(
+        name: widget.generateQrCubit.generateQrModel.data.customerName,
+        bagID: widget.generateQrCubit.generateQrModel.data.bagId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      key: generateQrCubit.globalKey,
+      key: widget.generateQrCubit.globalKey,
       child: Container(
         height: 380,
         width: 280.w,
@@ -42,7 +57,7 @@ class MobileGeneratedQrContainer extends StatelessWidget {
               child: Center(
                   child: QrImageView(
                     size: 200,
-                    data: generateQrCubit.qrData!,
+                    data: widget.generateQrCubit.qrData!,
                     version: QrVersions.auto,
                   )),
             ),
@@ -56,7 +71,7 @@ class MobileGeneratedQrContainer extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                     child: Text(
                       textAlign: TextAlign.center,
-                      generateQrCubit.selectedCustomer,
+                      widget.generateQrCubit.selectedCustomer,
                       style:
                       const TextStyle(fontSize: 25.67, fontWeight: FontWeight.w400),
                     ),
@@ -65,7 +80,7 @@ class MobileGeneratedQrContainer extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                     child: Text(
                         textAlign: TextAlign.center,
-                        'Bag ID: ${generateQrCubit.generateQrModel.data.bagId}',
+                        'Bag ID: ${widget.generateQrCubit.generateQrModel.data.bagId}',
                         style: const TextStyle(
                             fontSize: 25.67, fontWeight: FontWeight.w400)),
                   ),

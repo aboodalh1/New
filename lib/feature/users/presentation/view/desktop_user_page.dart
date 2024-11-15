@@ -121,9 +121,7 @@ class DesktopUsersPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                             CustomSearchBar(
-                              onChanged: (String val){},
-                            ),
+
                             SizedBox(
                               width: 40.w,
                             ),
@@ -216,8 +214,8 @@ class DesktopUsersPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 70,
-                    right: 80.w,
+                    top: 50,
+                    left: 80.w,
                     child: Column(
                       children: [
                         ElevatedButton(

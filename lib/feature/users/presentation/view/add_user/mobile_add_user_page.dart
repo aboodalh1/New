@@ -2,17 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../constant.dart';
+import '../../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import '../../../../../core/widgets/mobile/custom_mobile_elevated_button.dart';
 import '../../manger/user_cubit.dart';
 import 'desktop_add_user_page.dart';
 
 class MobileAddUserPage extends StatelessWidget {
-  const MobileAddUserPage({super.key});
+  const MobileAddUserPage({super.key, required this.isEdit});
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is UploadErrorState){
+          customSnackBar(context, state.error,color: kOnWayColor,duration: 15);
+        }
+        if(state is AddUserSuccessState){
+          customSnackBar(context, state.message);
+          Navigator.of(context).pop();
+        }if(state is EditUsersSuccessState){
+          customSnackBar(context, state.message);
+          Navigator.of(context).pop();
+        }
+        if (state is AddUserFailureState) {
+          customSnackBar(context, state.error,color: kOnWayColor,duration: 500);
+        }if (state is EditUsersFailureState) {
+          customSnackBar(context, state.error,color: kOnWayColor,duration: 500);
+        }
+        if (state is AddUserLoadingState){
+          customSnackBar(context, 'Loading...',duration: 500,color: kUnsubsicriber);
+        }
+      },
       builder: (context, state) {
         UserCubit userCubit = context.read<UserCubit>();
         return Scaffold(
@@ -123,7 +144,10 @@ class MobileAddUserPage extends StatelessWidget {
                           );
                         },
                       ).toList(),
-                      onChanged: (String? newValue) {},
+                      onChanged: (String? newValue) {
+                        userCubit.changeDropDownValue(
+                            value: newValue!);
+                      },
                     ),
                   ),
                   const SizedBox(
@@ -170,8 +194,10 @@ class MobileAddUserPage extends StatelessWidget {
                   SizedBox(
                       width: 140.w,
                       child: CustomMobileElevatedButton(
-                        title: 'Save',
-                        onPressed: () {},
+                        title: isEdit? 'Save':'Add',
+                        onPressed: () {
+                          isEdit? userCubit.editUser():  userCubit.addUser();
+                        },
                         fill: false,
                       )),
                 ],

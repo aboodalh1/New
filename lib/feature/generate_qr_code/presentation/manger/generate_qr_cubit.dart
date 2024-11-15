@@ -28,32 +28,35 @@ class GenerateQrCubit extends Cubit<GenerateQrState> {
 
   Future<void> printContainer(
       {required String name, required num bagID}) async {
-    emit(PrintContainerLoadingState()); // Emit loading state
-    try {
-      RenderRepaintBoundary boundary =
-          globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      final image = await boundary.toImage(pixelRatio: 3.0);
-      final byteData = await image.toByteData(format: ImageByteFormat.png);
-      final pngBytes = byteData!.buffer.asUint8List();
-      final pdf = pw.Document();
-      final imagePdf = pw.MemoryImage(pngBytes);
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) => pw.Center(child: pw.Image(imagePdf)),
-        ),
-      );
-      final Uint8List pdfBytes = await pdf.save();
-      final blob = html.Blob([pdfBytes], 'application/pdf');
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute("download", "$name, $bagID.pdf")
-        ..click();
-      html.Url.revokeObjectUrl(url);
-      emit(PrintContainerSuccessState(message: 'Saved Successfully'));
-    } catch (e) {
-      emit(PrintContainerFailureState(
-          error: 'Something went wrong'));
-    }
+    Future.delayed(const Duration(milliseconds: 500),()async{
+      emit(PrintContainerLoadingState());
+      try {
+        RenderRepaintBoundary boundary =
+        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+        final image = await boundary.toImage(pixelRatio: 3.0);
+        final byteData = await image.toByteData(format: ImageByteFormat.png);
+        final pngBytes = byteData!.buffer.asUint8List();
+        final pdf = pw.Document();
+        final imagePdf = pw.MemoryImage(pngBytes);
+        pdf.addPage(
+          pw.Page(
+            build: (pw.Context context) => pw.Center(child: pw.Image(imagePdf)),
+          ),
+        );
+        final Uint8List pdfBytes = await pdf.save();
+        final blob = html.Blob([pdfBytes], 'application/pdf');
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute("download", "$name, $bagID.pdf")
+          ..click();
+        html.Url.revokeObjectUrl(url);
+        emit(PrintContainerSuccessState(message: 'Saved Successfully'));
+      } catch (e) {
+        emit(PrintContainerFailureState(
+            error: 'Something went wrong'));
+      }
+    });
+
   }
 
   void generateQrSecond(context) async {

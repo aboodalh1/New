@@ -164,7 +164,7 @@ class DesktopBagsPage extends StatelessWidget {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 5, mainAxisExtent: 200),
                       itemBuilder: (context, index) =>
-                          AvailableBagsItem(bagsCubit: bagsCubit, index: index),
+                          AvailableBagsItem(bagsCubit: bagsCubit, index: index,isDesktop: true,),
                     ))
               ],
             ),

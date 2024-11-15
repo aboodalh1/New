@@ -63,3 +63,8 @@ final class ChangePasswordSecureState extends UserState{}
 final class ExpandFiltersState extends UserState{}
 
 final class UploadState extends UserState{}
+final class UploadErrorState extends UserState{
+  final String error;
+
+  UploadErrorState({required this.error});
+}

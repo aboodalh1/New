@@ -15,6 +15,9 @@ class DesktopAddUserPage extends StatelessWidget {
     ScreenSizeUtil.initSize(context);
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
+        if(state is UploadErrorState){
+          customSnackBar(context, state.error,color: kOnWayColor,duration: 15);
+        }
         if(state is AddUserSuccessState){
           customSnackBar(context, state.message);
           Navigator.of(context).pop();

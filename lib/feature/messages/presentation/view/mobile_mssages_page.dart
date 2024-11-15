@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qrreader/feature/messages/presentation/view/unverified/tablet_unverified_page.dart';
 import 'package:qrreader/feature/messages/presentation/view/unverified/unverified_page_view.dart';
 import 'package:qrreader/feature/messages/presentation/view/widgets/mobile/mobile_message_item.dart';
-import 'package:qrreader/feature/messages/presentation/view/widgets/tablet/tablet_message_item.dart';
 
 import '../../../../constant.dart';
 import '../../../../core/util/function/navigation.dart';
@@ -85,7 +83,7 @@ class MobileMessagesPage extends StatelessWidget {
                         child: Text(
                           'Unverified requests',
                           style: TextStyle(
-                              fontSize: 5.sp,
+                              fontSize: 8.sp,
                               fontWeight: FontWeight.w300,
                               color: Colors.white),
                         ),
