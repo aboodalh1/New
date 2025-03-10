@@ -33,7 +33,7 @@ class DashboardPage extends StatelessWidget {
             navigateAndFinish(context, const SignInPage());
           }
           if(state is SignOutFailureState){
-            if(state.error=='Session Expired'){navigateAndFinish(context, SignInPage());}
+            if(state.error=='Session Expired'){navigateAndFinish(context, const SignInPage());}
             customSnackBar(context, state.error,color: kOnWayColor,duration: 10);
           }
         },

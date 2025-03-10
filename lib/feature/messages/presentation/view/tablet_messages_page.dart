@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/core/widgets/tablet/tablet_custom_loading_indicator.dart';
-import 'package:qrreader/feature/messages/presentation/view/unverified/tablet_unverified_page.dart';
 import 'package:qrreader/feature/messages/presentation/view/unverified/unverified_page_view.dart';
 import 'package:qrreader/feature/messages/presentation/view/widgets/tablet/tablet_message_item.dart';
 
@@ -35,7 +34,7 @@ class TabletMessagesPage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is GetMessagesLoading || state is GetUnverifiedLoading) {
-          return TabletLoadingIndicator();
+          return const TabletLoadingIndicator();
         }
         MessagesCubit messageCubit = context.read<MessagesCubit>();
         return Scaffold(
@@ -46,7 +45,7 @@ class TabletMessagesPage extends StatelessWidget {
                   height: 10.h,
                 ),
                 AppBar(
-                  backgroundColor: Color(0xffF8F9FB),
+                  backgroundColor: const Color(0xffF8F9FB),
                   actions: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
@@ -69,7 +68,7 @@ class TabletMessagesPage extends StatelessWidget {
                                 EdgeInsets.symmetric(
                                     horizontal: 5.w, vertical: 4.h)),
                             backgroundColor:
-                                MaterialStateProperty.all(Color(0xff77C6D8)),
+                                MaterialStateProperty.all(const Color(0xff77C6D8)),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(11.r),

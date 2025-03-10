@@ -31,12 +31,14 @@ class Data {
   });
   late final String qrContent;
   late final String customerName;
+  late final String expiryDate;
   late final num bagId;
 
   Data.fromJson(Map<String, dynamic> json){
     qrContent = json['qr_content'];
     customerName = json['customer_name'];
     bagId = json['bag_id'];
+    expiryDate = json['expiry_date']??'';
   }
 
   Map<String, dynamic> toJson() {

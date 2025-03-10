@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:qrreader/core/util/asset_loader.dart';
 import 'package:qrreader/core/util/function/navigation.dart';
 import 'package:qrreader/core/util/screen_util.dart';
 import 'package:qrreader/feature/bags/presentation/manger/bags_cubit.dart';
@@ -27,6 +28,7 @@ class DesktopBagsPage extends StatelessWidget {
           customSnackBar(context, state.error,duration: 10,color: kOnWayColor);
         }
         if(state is ChangeBagsStateSuccess){
+          if(Navigator.of(context).canPop()){Navigator.of(context).pop();}
           customSnackBar(context, 'State changed successfully',duration: 12);
         }
       },
@@ -156,7 +158,32 @@ class DesktopBagsPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                bagsCubit.allBagsModel.data.isEmpty?Column(
+                  children: [
+                    SizedBox(height: 100.h,),
+                    Center(child:Text("There are no bags yet!",style: TextStyle(color: Colors.grey,fontSize: 8.sp,fontWeight: FontWeight.w600),)),
+                    Badge(
+                      label: IconButton(icon:Icon(Icons.add,color: Colors.white,),onPressed: (){
+                        navigateTo(
+                            context,
+                            AddBagsPageView(
+                              bagsCubit: bagsCubit,
+                            ));
+                      },),
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      largeSize: 10.sp,
+                      backgroundColor: kSecondaryColor,
+
+                      child: IconButton(onPressed: (){
+                        navigateTo(
+                            context,
+                            AddBagsPageView(
+                              bagsCubit: bagsCubit,
+                            ));
+                      },icon: Image.asset(AssetsLoader.bags)),
+                    )
+                  ],
+                ):SizedBox(
                     child: GridView.builder(
                       itemCount: bagsCubit.allBagsModel.data.length,
                       shrinkWrap: true,

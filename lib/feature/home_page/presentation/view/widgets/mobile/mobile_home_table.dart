@@ -68,24 +68,10 @@ class MobileHomeTable extends StatelessWidget {
                 title:
                 '${homeCubit.homeReadsModel.data[i].bagId}')),
             DataCell(MobileStatusCell(
-              title: homeCubit
-                  .homeReadsModel
-                  .data[i]
-                  .status ==
-                  'stored_stage_1' ||
-                  homeCubit
-                      .homeReadsModel
-                      .data[i]
-                      .status ==
-                      'stored_stage_2'
-                  ? 'At Store'
-                  : homeCubit
-                  .homeReadsModel
-                  .data[i]
-                  .status ==
-                  'shipping'
-                  ? 'On Way'
-                  : 'Delivered',
+              title: homeCubit.homeReadsModel.data[i].status=='stored_stage_1'||homeCubit.homeReadsModel.data[i].status=='stored_stage_2'? 'At Store':
+              homeCubit.homeReadsModel.data[i].status=='shipping' && homeCubit.homeReadsModel.data[i].previousState=="stored_stage_2"? 'To Customer':
+              homeCubit.homeReadsModel.data[i].status=='shipping' && homeCubit.homeReadsModel.data[i].previousState=="delivered"? "To Kitchen"
+                  :'Delivered',
               color: homeCubit
                   .homeReadsModel
                   .data[i]

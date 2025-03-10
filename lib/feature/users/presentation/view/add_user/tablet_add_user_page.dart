@@ -194,15 +194,15 @@ class TabletAddUserPage extends StatelessWidget {
                             ),
                           ),
 
-                          const SizedBox(
+                          if(!isEdit) const SizedBox(
                             height: 10,
                           ),
-                          Text(
+                          if(!isEdit)  Text(
                             'Password',
                             style: TextStyle(
                                 color: Colors.black, fontSize: 6.sp),
                           ),
-                          SizedBox(
+                          if(!isEdit)   SizedBox(
                             width: 80.w,
                             height: 30,
                             child: DesktopCustomAddUserField(controller: userCubit.passwordController, isSecure: userCubit.isSecure,
@@ -213,15 +213,15 @@ class TabletAddUserPage extends StatelessWidget {
                                 icon: Icon(size: 6.sp,userCubit.passwordIcon),
                               ),),
                           ),
-                          const SizedBox(
+                          if(!isEdit)  const SizedBox(
                             height: 10,
                           ),
-                          Text(
+                          if(!isEdit)   Text(
                             'Confirm Password',
                             style: TextStyle(
                                 color: Colors.black, fontSize: 6.sp),
                           ),
-                          SizedBox(
+                          if(!isEdit)    SizedBox(
                             width: 80.w,
                             height: 30,
                             child: DesktopCustomAddUserField(controller: userCubit.confirmPasswordController, isSecure: userCubit.confirmIsSecure,

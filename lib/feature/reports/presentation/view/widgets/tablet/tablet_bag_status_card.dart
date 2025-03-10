@@ -37,7 +37,7 @@ class TabletBagsStatusCard extends StatelessWidget {
               Text(title,style: TextStyle(fontSize: 7.sp),)
             ],
           ),
-        platform!='mobile'?  SizedBox(height: 10.h,):SizedBox(),
+        platform!='mobile'?  SizedBox(height: 10.h,):const SizedBox(),
           Padding(
             padding: EdgeInsets.only(left: 4.0.w),
             child: Row(

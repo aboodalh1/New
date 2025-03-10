@@ -117,7 +117,6 @@ class UserCubit extends Cubit<UserState> {
       id: editID,
     );
     response.fold((failure) {
-      print(failure.errMessage);
       emit(EditUsersFailureState(error: failure.errMessage));
     }, (response) {
       getAllUser(role: 'all');
@@ -145,6 +144,7 @@ class UserCubit extends Cubit<UserState> {
     }, (response) {
       isExpanded = false;
       allUsersModel = AllUsersModel.fromJson(response.data);
+      allUsersModel.data.removeWhere((element) => element.id==1);
       if (allUsersModel.data.isEmpty) {
         emit(EmptyUsersState(role: role));
       } else {
@@ -158,6 +158,7 @@ class UserCubit extends Cubit<UserState> {
         }
         drivers = uniqueDrivers.toSet().toList();
         }
+
         emit(GetUsersSuccessState());
       }
     });
@@ -196,7 +197,6 @@ class UserCubit extends Cubit<UserState> {
     uploadInput.onChange.listen((event) {
       final files = uploadInput.files;
       if (files == null || files.isEmpty) {
-        print("No file selected");
         return;
       }
 

@@ -87,11 +87,11 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                 ),
                 MobileCustomUnderLineTextField(
                   hint: 'Full name',
-                  controller: widget.editNameController,
+                  controller: widget.editNameController, onTap: () {  },
                 ),
                 MobileCustomUnderLineTextField(
                   hint: 'Customer Num',
-                  controller: widget.editPhoneNumberController,
+                  controller: widget.editPhoneNumberController, onTap: () {  },
                 ),
                 SizedBox(
                   height: 30,
@@ -131,7 +131,12 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                 ),
                 MobileCustomUnderLineTextField(
                   controller: widget.editLocationController,
-                  hint: 'Address',
+                  hint: 'Address', onTap: () {  },
+                ),
+                MobileCustomUnderLineTextField(
+                  onTap: ()=>widget.customerCubit.selectDate(context),
+                  controller: widget.customerCubit.dateController,
+                  hint: 'Expired Date',
                 ),
                 const SizedBox(
                   height: 15,
@@ -145,9 +150,9 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            padding: WidgetStateProperty.all(EdgeInsets.zero),
                             backgroundColor:
-                                MaterialStateProperty.all(kPrimaryColor)),
+                                WidgetStateProperty.all(kPrimaryColor)),
                         child: Text(
                           'Subscriber',
                           style: TextStyle(
@@ -173,6 +178,16 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                                         style: TextStyle(fontSize: 15.sp),
                                         "Are you sure you want to delete ${widget.customerCubit.allCustomersModel.data[widget.index].name}?"),
                                     actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.black),
+                                          )),
                                       BlocBuilder<CustomerCubit, CustomerState>(
                                         builder: (context, state) {
                                           if(state is DeleteCustomerLoadingState){
@@ -192,27 +207,18 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                                                 "Delete",
                                                 style: TextStyle(
                                                     color: kOnWayColor,
-                                                    fontSize: 14.sp),
+                                                    fontSize: 12.sp),
                                               ));
                                         },
                                       ),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                                fontSize: 14.sp,
-                                                color: Colors.black),
-                                          )),
+
                                     ],
                                   ));
                         },
                         style: ButtonStyle(
-                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            padding: WidgetStateProperty.all(EdgeInsets.zero),
                             backgroundColor:
-                                MaterialStateProperty.all(kOnWayColor)),
+                                WidgetStateProperty.all(kOnWayColor)),
                         child: Text(
                           'Delete',
                           style: TextStyle(
@@ -272,10 +278,10 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                   width: 90.w,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                        padding: WidgetStateProperty.all(EdgeInsets.symmetric(
                             horizontal: 2.w, vertical: 2.h)),
                         backgroundColor:
-                            MaterialStateProperty.all(kPrimaryColor)),
+                            WidgetStateProperty.all(kPrimaryColor)),
                     onPressed: null,
                     child: Text(
                       widget.customerCubit.allCustomersModel.data[widget.index]
@@ -332,9 +338,10 @@ class _MobileCustomerCardState extends State<MobileCustomerCard> {
                             iconSize: 12.sp,
                             style: ButtonStyle(
                                 padding:
-                                    MaterialStateProperty.all(EdgeInsets.zero)),
+                                    WidgetStateProperty.all(EdgeInsets.zero)),
                             tooltip: "Edit information",
                             onPressed: () {
+                              widget.customerCubit.dateController.text = widget.customerCubit.allCustomersModel.data[widget.index].expiryDate=='not selected yet'?'':widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.length>9?widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.substring(0,10):widget.customerCubit.allCustomersModel.data[widget.index].expiryDate;
                               widget.editNameController.text = widget
                                   .customerCubit
                                   .allCustomersModel

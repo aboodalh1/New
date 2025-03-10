@@ -48,9 +48,9 @@ class AddQrInfoContainer extends StatelessWidget {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: SizedBox(
-                    width: 55.w,
+                padding:  EdgeInsets.all(10.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
                     child: DropdownButtonFormField(
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -76,7 +76,17 @@ class AddQrInfoContainer extends StatelessWidget {
                               (String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Column(
+                                children: [
+                                  FittedBox(
+                                    fit: BoxFit.fitHeight,
+                                    child: Text(value,style: TextStyle(
+                                      fontSize: 4.5.sp
+                                    ),),
+                                  ),
+                                  const Divider(thickness: 0.5,)
+                                ],
+                              ),
                             );
                           },
                         ).toList(), onChanged: (value) {

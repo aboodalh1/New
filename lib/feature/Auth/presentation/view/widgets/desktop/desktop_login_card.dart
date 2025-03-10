@@ -120,7 +120,7 @@ class DesktopLoginCard extends StatelessWidget {
                         height: 20.h,
                         child: LoadingIndicator(
                           strokeWidth: 5.sp,
-                          indicatorType: Indicator.lineScale,colors: [Colors.white],),
+                          indicatorType: Indicator.lineScale,colors: const [Colors.white],),
                       ):const Text(
                         'Sign In',
                         style: TextStyle(

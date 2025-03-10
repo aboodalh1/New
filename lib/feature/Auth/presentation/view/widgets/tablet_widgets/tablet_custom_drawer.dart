@@ -4,9 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/feature/home_page/presentation/manger/home_cubit.dart';
 
 import '../../../../../../constant.dart';
-import '../../../../../../core/util/api_service.dart';
-import '../../../../../../core/util/function/navigation.dart';
-import '../../sign_in_page.dart';
 
 
 class TabletDrawer extends StatelessWidget {
@@ -38,7 +35,7 @@ class TabletDrawer extends StatelessWidget {
                   fontSize: 8.sp,
                 )),
               ),
-              Spacer(flex: 1,),
+              const Spacer(flex: 1,),
               TabletCustomTextButton(
                 isSelected: homeCubit.currentIndex==0? true:false,
                 onPressed: (){

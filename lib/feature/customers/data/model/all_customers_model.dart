@@ -41,16 +41,18 @@ class Data {
   late final String driverName;
   late final String state;
   late final int reservedBags;
+  late final String expiryDate;
   late final List<int> bags;
 
   Data.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
     address = json['address'];
-    phone = json['phone'];
+    phone = json['phone']??"";
     driverName = json['driver_name'];
     state = json['state'];
     reservedBags = json['reserved_bags'];
+    expiryDate = json['expiry_date']?? 'not selected yet';
     bags = List.castFrom<dynamic, int>(json['bags']);
   }
 
@@ -63,6 +65,7 @@ class Data {
     _data['driver_name'] = driverName;
     _data['state'] = state;
     _data['reserved_bags'] = reservedBags;
+    _data['expiry_date'] = expiryDate;
     _data['bags'] = bags;
     return _data;
   }

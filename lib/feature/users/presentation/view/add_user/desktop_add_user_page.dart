@@ -304,6 +304,7 @@ class DesktopCustomAddUserField extends StatelessWidget {
       obscureText: isSecure,
       cursorColor: kPrimaryColor,
       decoration: InputDecoration(
+        focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
           suffixIcon: suffixIcon,
           hintText: '',
           hintStyle: TextStyle(fontSize: 6.5.sp),

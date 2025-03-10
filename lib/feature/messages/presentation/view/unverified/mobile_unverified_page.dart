@@ -8,7 +8,6 @@ import '../../../../../core/util/function/navigation.dart';
 import '../../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import '../../../../Auth/presentation/view/sign_in_page.dart';
 import '../../manger/messages_cubit.dart';
-import '../widgets/tablet/tablet_message_item.dart';
 
 class MobileUnverifiedPage extends StatelessWidget {
   const MobileUnverifiedPage({super.key});
@@ -72,11 +71,11 @@ class MobileUnverifiedPage extends StatelessWidget {
                       height: 10.h,
                     ),
                     AppBar(
-                      backgroundColor: Color(0xffF8F9FB),
+                      backgroundColor: const Color(0xffF8F9FB),
                       actions: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                          child: Icon(Icons.refresh,size: 16.sp,color: Color(0xff77C6D8),),
+                          child: Icon(Icons.refresh,size: 16.sp,color: const Color(0xff77C6D8),),
                         )
                       ],
                       title: Text(

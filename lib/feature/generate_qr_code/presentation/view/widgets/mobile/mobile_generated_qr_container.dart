@@ -22,10 +22,10 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1));
-    context.read<GenerateQrCubit>().printContainer(
-        name: widget.generateQrCubit.generateQrModel.data.customerName,
-        bagID: widget.generateQrCubit.generateQrModel.data.bagId);
+    // Future.delayed(const Duration(seconds: 1));
+    // context.read<GenerateQrCubit>().printContainer(
+    //     name: widget.generateQrCubit.generateQrModel.data.customerName,
+    //     bagID: widget.generateQrCubit.generateQrModel.data.bagId);
   }
 
   @override
@@ -33,8 +33,7 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
     return RepaintBoundary(
       key: widget.generateQrCubit.globalKey,
       child: Container(
-        height: 380,
-        width: 280.w,
+        padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.8),
@@ -50,6 +49,7 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 5.w),
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(color: Color(0xffF2F2F2)),
               height: 200,
@@ -67,13 +67,15 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
             Center(
               child: Column(
                 children: [
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
+                  SizedBox(
+                    width:200.w,
                     child: Text(
+                      softWrap: true,
+                      maxLines: 4,
                       textAlign: TextAlign.center,
                       widget.generateQrCubit.selectedCustomer,
                       style:
-                      const TextStyle(fontSize: 25.67, fontWeight: FontWeight.w400),
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
                     ),
                   ),
                   FittedBox(
@@ -81,8 +83,16 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
                     child: Text(
                         textAlign: TextAlign.center,
                         'Bag ID: ${widget.generateQrCubit.generateQrModel.data.bagId}',
-                        style: const TextStyle(
-                            fontSize: 25.67, fontWeight: FontWeight.w400)),
+                        style:  TextStyle(
+                            fontSize: 20.sp, fontWeight: FontWeight.w400)),
+                  ),
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate}',
+                        style: TextStyle(
+                            fontSize: 20.sp, fontWeight: FontWeight.w400)),
                   ),
                 ],
               ),

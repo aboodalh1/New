@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.3.1
   syncfusion_flutter_pdf: ^21.2.4  #Zak
   loading_indicator: ^3.1.0
+  fancy_shimmer_image: ^2.0.3
 
 dev_dependencies:
   flutter_test:

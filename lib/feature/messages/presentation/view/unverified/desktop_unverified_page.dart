@@ -39,7 +39,7 @@ class DesktopUnVerifiedPage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is GetUnverifiedLoading) {
-          return DesktopLoadingIndicator();
+          return const DesktopLoadingIndicator();
         }
         if (state is GetUnverifiedFailure) {
           return Scaffold(
@@ -67,7 +67,7 @@ class DesktopUnVerifiedPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                           child: AppBar(
-                            backgroundColor: Color(0xffF8F9FB),
+                            backgroundColor: const Color(0xffF8F9FB),
                             title: Text(
                               "Messages List",
                               style: TextStyle(
@@ -115,7 +115,7 @@ class DesktopUnVerifiedPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                         child: AppBar(
-                          backgroundColor: Color(0xffF8F9FB),
+                          backgroundColor: const Color(0xffF8F9FB),
                           title: Text(
                             "Messages List",
                             style: TextStyle(

@@ -5,7 +5,6 @@ import 'package:qrreader/core/util/function/navigation.dart';
 import 'package:qrreader/core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import 'package:qrreader/feature/Auth/presentation/view/sign_in_page.dart';
 import 'package:qrreader/feature/home_page/presentation/view/widgets/custom_elevated_button.dart';
-import 'package:qrreader/feature/home_page/presentation/view/widgets/desktop/custom_search_bar.dart';
 import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 import 'package:qrreader/feature/users/presentation/view/add_user/add_user_page_view.dart';
 import '../../../../constant.dart';
@@ -23,41 +22,16 @@ class DesktopUsersPage extends StatelessWidget {
           }
           customSnackBar(context, state.error);
         }
-        if(state is DeleteUsersSuccessState){
-          if(Navigator.of(context).canPop()){
+        if (state is DeleteUsersSuccessState) {
+          if (Navigator.of(context).canPop()) {
             Navigator.pop(context);
           }
           customSnackBar(context, state.message);
         }
-        if (state is GetUsersSuccessState || state is AddUserSuccessState || state is DeleteUsersSuccessState) {
+        if (state is GetUsersSuccessState ||
+            state is AddUserSuccessState ||
+            state is DeleteUsersSuccessState) {
           context.read<UserCubit>().rows.clear();
-          for (int i = 0;
-              i < context.read<UserCubit>().allUsersModel.data.length;
-              i++) {
-            if(context.read<UserCubit>().allUsersModel.data[i].id==1)continue;
-            context.read<UserCubit>().rows.add(DataRow(cells: [
-                  DataCell(Text(
-                      context.read<UserCubit>().allUsersModel.data[i].name)),
-                  DataCell(Text(
-                      context.read<UserCubit>().allUsersModel.data[i].phone)),
-                   DataCell(Text(
-                      context.read<UserCubit>().allUsersModel.data[i].role)),
-                  DataCell(Row(
-                    children: [
-                      CustomEditTextButton(
-                        userCubit: context.read<UserCubit>(),
-                        i: i,
-                        isTablet: false,
-                      ),
-                      CustomDeleteTextButton(
-                        userCubit: context.read<UserCubit>(),
-                        i: i,
-                        isTablet: false,
-                      ),
-                    ],
-                  )),
-                ]));
-          }
         }
         if (state is DeleteUsersFailureState) {
           customSnackBar(context, state.error);
@@ -121,7 +95,6 @@ class DesktopUsersPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-
                             SizedBox(
                               width: 40.w,
                             ),
@@ -145,12 +118,16 @@ class DesktopUsersPage extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 20,),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                     Text(
                                       "You didn't have any ${state.role} yet",
                                       style: TextStyle(fontSize: 7.sp),
                                     ),
-                                    const SizedBox(height: 40,),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
                                     TextButton(
                                       onPressed: () {
                                         navigateTo(
@@ -209,106 +186,139 @@ class DesktopUsersPage extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                                rows: userCubit.rows)
+                                rows: List.generate(
+                                    userCubit.allUsersModel.data.length,
+                                    (index) {
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(SizedBox(
+                                          width: 47.w,
+                                          child: Text(
+                                              maxLines: 2,
+                                              textAlign: TextAlign.start,
+                                              overflow: TextOverflow.ellipsis,
+                                              userCubit.allUsersModel
+                                                  .data[index].name))),
+                                      DataCell(Text(userCubit
+                                          .allUsersModel.data[index].phone)),
+                                      DataCell(Text(userCubit
+                                          .allUsersModel.data[index].role)),
+                                      DataCell(Row(
+                                        children: [
+                                          CustomEditTextButton(
+                                            userCubit: userCubit,
+                                            i: index,
+                                            isTablet: false,
+                                          ),
+                                          CustomDeleteTextButton(
+                                            userCubit: userCubit,
+                                            i: index,
+                                            isTablet: false,
+                                          ),
+                                        ],
+                                      )),
+                                    ],
+                                  );
+                                }))
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 50,
-                    left: 80.w,
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            userCubit.expandFilterButton();
-                          },
-                          style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0),
-                              overlayColor: MaterialStateProperty.all(
-                                  Colors.black.withOpacity(0.25)),
-                              foregroundColor:
-                                  MaterialStateProperty.all(Colors.white),
-                              padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                      horizontal: 5.w, vertical: 4.h)),
-                              backgroundColor: MaterialStateProperty.all(
-                                  userCubit.isFiltered
-                                      ? kPrimaryColor
-                                      : const Color(0xffFFFFFF)),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      width: 1.6, color: kPrimaryColor),
-                                  borderRadius: userCubit.isExpanded
-                                      ? BorderRadius.only(
-                                          topLeft: Radius.circular(11.r),
-                                          topRight: Radius.circular(11.r),
-                                        )
-                                      : BorderRadius.circular(11.r),
-                                ),
-                              )),
-                          child: Text(
-                            'Filter',
-                            style: TextStyle(
-                                fontSize: 4.sp,
-                                fontWeight: FontWeight.w300,
-                                color: userCubit.isFiltered
-                                    ? Colors.white
-                                    : kPrimaryColor),
+                    Positioned(
+                      top: 50,
+                      left: 80.w,
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              userCubit.expandFilterButton();
+                            },
+                            style: ButtonStyle(
+                                elevation: MaterialStateProperty.all(0),
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.black.withOpacity(0.25)),
+                                foregroundColor:
+                                    MaterialStateProperty.all(Colors.white),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.symmetric(
+                                        horizontal: 5.w, vertical: 4.h)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    userCubit.isFiltered
+                                        ? kPrimaryColor
+                                        : const Color(0xffFFFFFF)),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                        width: 1.6, color: kPrimaryColor),
+                                    borderRadius: userCubit.isExpanded
+                                        ? BorderRadius.only(
+                                            topLeft: Radius.circular(11.r),
+                                            topRight: Radius.circular(11.r),
+                                          )
+                                        : BorderRadius.circular(11.r),
+                                  ),
+                                )),
+                            child: Text(
+                              'Filter',
+                              style: TextStyle(
+                                  fontSize: 4.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: userCubit.isFiltered
+                                      ? Colors.white
+                                      : kPrimaryColor),
+                            ),
                           ),
-                        ),
-                        userCubit.isExpanded
-                            ? Container(
-                                height: 120.h,
-                                width: 24.5.w,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(11.r),
-                                        bottomRight: Radius.circular(11.r)),
-                                    border: Border.all(
-                                        color: kPrimaryColor, width: 1.8)),
-                                child: Column(
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          userCubit.getAllUser(role: 'driver');
-                                        },
-                                        child: Text(
-                                          "Drivers",
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 3.sp),
-                                        )),
-                                    const Divider(),
-                                    TextButton(
-                                        onPressed: () {
-                                          userCubit.getAllUser(role: 'worker');
-                                        },
-                                        child: Text(
-                                          "Worker",
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 3.sp),
-                                        )),
-                                    const Divider(),
-                                    TextButton(
-                                        onPressed: () {
-                                          userCubit.getAllUser(role: 'admin');
-                                        },
-                                        child: Text(
-                                          "Admins",
-                                          style: TextStyle(
-                                              color: kPrimaryColor,
-                                              fontSize: 3.sp),
-                                        )),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox()
-                      ],
+                          userCubit.isExpanded
+                              ? Container(
+                                  height: 120.h,
+                                  width: 24.5.w,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(11.r),
+                                          bottomRight: Radius.circular(11.r)),
+                                      border: Border.all(
+                                          color: kPrimaryColor, width: 1.8)),
+                                  child: Column(
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            userCubit.getAllUser(role: 'driver');
+                                          },
+                                          child: Text(
+                                            "Drivers",
+                                            style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 3.sp),
+                                          )),
+                                      const Divider(),
+                                      TextButton(
+                                          onPressed: () {
+                                            userCubit.getAllUser(role: 'worker');
+                                          },
+                                          child: Text(
+                                            "Worker",
+                                            style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 3.sp),
+                                          )),
+                                      const Divider(),
+                                      TextButton(
+                                          onPressed: () {
+                                            userCubit.getAllUser(role: 'admin');
+                                          },
+                                          child: Text(
+                                            "Admins",
+                                            style: TextStyle(
+                                                color: kPrimaryColor,
+                                                fontSize: 3.sp),
+                                          )),
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -356,6 +366,14 @@ class CustomDeleteTextButton extends StatelessWidget {
                 actions: [
                   TextButton(
                       onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(fontSize: isTablet ? 4.5.sp : 3.5.sp),
+                      )),
+                  TextButton(
+                      onPressed: () {
                         userCubit.deleteUser(
                             id: userCubit.allUsersModel.data[i].id);
                       },
@@ -363,15 +381,7 @@ class CustomDeleteTextButton extends StatelessWidget {
                         "Delete",
                         style: TextStyle(
                             color: kOnWayColor,
-                            fontSize: isTablet ? 4.5.sp : 3.5.sp),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(fontSize: isTablet ? 4.5.sp : 3.5.sp),
+                            fontSize: isTablet ? 5.sp : 3.5.sp),
                       )),
                 ],
               );
@@ -409,7 +419,7 @@ class CustomEditTextButton extends StatelessWidget {
         userCubit.phoneNumberController.text =
             userCubit.allUsersModel.data[i].phone;
         userCubit.imageController.text =
-            userCubit.allUsersModel.data[i].image??'';
+            userCubit.allUsersModel.data[i].image ?? '';
         userCubit.selectedJob = userCubit.allUsersModel.data[i].role;
         userCubit.editID = userCubit.allUsersModel.data[i].id;
         navigateTo(

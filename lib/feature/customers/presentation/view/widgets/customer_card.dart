@@ -74,7 +74,7 @@ class _CustomerCardState extends State<CustomerCard> {
                                     phoneNumber:
                                         widget.editPhoneNumberController.text,
                                     location:
-                                        widget.editLocationController.text);
+                                        widget.editLocationController.text, );
                               },
                               fill: true,
                             )),
@@ -86,11 +86,11 @@ class _CustomerCardState extends State<CustomerCard> {
                     ),
                     CustomUnderLineTextField(
                       hint: 'Full name',
-                      controller: widget.editNameController,
+                      controller: widget.editNameController, onTap: () {  },
                     ),
                     CustomUnderLineTextField(
                         hint: 'Customer Num',
-                        controller: widget.editPhoneNumberController),
+                        controller: widget.editPhoneNumberController, onTap: () {  },),
                     SizedBox(
                       height: 40,
                       width: 40.w,
@@ -128,7 +128,15 @@ class _CustomerCardState extends State<CustomerCard> {
                     ),
                     CustomUnderLineTextField(
                       controller: widget.editLocationController,
-                      hint: 'Address',
+                      hint: 'Address', onTap: () {  },
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    CustomUnderLineTextField(
+                      onTap: ()=>widget.customerCubit.selectDate(context),
+                      controller: widget.customerCubit.dateController,
+                      hint: 'Expired Date',
                     ),
                     SizedBox(
                       height: 10.h,
@@ -564,12 +572,23 @@ class _CustomerCardState extends State<CustomerCard> {
                         : const SizedBox()
                   ],
                 ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                    'Expired Date: ${widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.substring(0,10)}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 3.sp,
+                    )),
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () {
+                        widget.customerCubit.dateController.text = widget.customerCubit.allCustomersModel.data[widget.index].expiryDate=='not selected yet'?'':widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.length>9?widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.substring(0,10):widget.customerCubit.allCustomersModel.data[widget.index].expiryDate;
                         widget.editNameController.text = widget.customerCubit
                             .allCustomersModel.data[widget.index].name;
                         widget.editPhoneNumberController.text = widget

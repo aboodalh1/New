@@ -68,9 +68,11 @@ class ReportsCubit extends Cubit<ReportsState> {
     emit(GetReportsLoadingState());
     var result = await reportsRepo.getReports(date: dateController.text);
     result.fold((failure) {
+
       emit(GetReportsFailureState(error: failure.errMessage));
     }, (response) {
       allReportsModel = AllReportsModel.fromJson(response.data);
+
       emit(GetReportsSuccessState(message: allReportsModel.message));
     });
   }

@@ -51,7 +51,7 @@ class MobileMessagesPage extends StatelessWidget {
                   height: 10.h,
                 ),
                 AppBar(
-                  backgroundColor: Color(0xffF8F9FB),
+                  backgroundColor: const Color(0xffF8F9FB),
                   actions: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0.w),
@@ -74,7 +74,7 @@ class MobileMessagesPage extends StatelessWidget {
                                 EdgeInsets.symmetric(
                                     horizontal: 5.w, vertical: 4.h)),
                             backgroundColor:
-                            MaterialStateProperty.all(Color(0xff77C6D8)),
+                            MaterialStateProperty.all(const Color(0xff77C6D8)),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(11.r),

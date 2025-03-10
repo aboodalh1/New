@@ -58,12 +58,15 @@ class _NewCustomerCardState extends State<NewCustomerCard> {
               Icons.person,
               size: 16.sp,
             ),
-             CustomUnderLineTextField(hint: 'Full name', controller: widget.customerCubit.newNameController,),
-             CustomUnderLineTextField(hint: 'Customer Num',controller: widget.customerCubit.newPhoneNumberController),
+             CustomUnderLineTextField(hint: 'Full name', controller: widget.customerCubit.newNameController, onTap: () {  },),
+             CustomUnderLineTextField(hint: 'Customer Num',controller: widget.customerCubit.newPhoneNumberController, onTap: () {  },),
              SizedBox(
                height: 40,
                width: 40.w,
                child: DropdownButtonFormField(
+                 decoration: const InputDecoration(
+                   focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor))
+                 ),
                     isExpanded: true,
                    value: null,
                    iconSize: 5.sp,
@@ -81,7 +84,12 @@ class _NewCustomerCardState extends State<NewCustomerCard> {
                }),
              ),
              CustomUnderLineTextField(controller: widget.customerCubit.newLocationController,
-              hint: 'Address',
+              hint: 'Address', onTap: () {  },
+            ),
+            CustomUnderLineTextField(
+              onTap: ()=>widget.customerCubit.selectDate(context),
+              controller: widget.customerCubit.dateController,
+              hint: 'Expired Date',
             ),
             SizedBox(
               height: 10.h,
@@ -89,8 +97,8 @@ class _NewCustomerCardState extends State<NewCustomerCard> {
             SizedBox(
               width: 20.w,
               height: 25,child: ElevatedButton(
-              onPressed: ()async{ try {
-      await widget.customerCubit.addCustomers(context,
+              onPressed: (){ try {
+      widget.customerCubit.addCustomers(context,
       name: widget.customerCubit.newNameController.text,
       phoneNumber: widget.customerCubit.newPhoneNumberController.text,
       location: widget

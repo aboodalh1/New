@@ -29,12 +29,14 @@ class Data {
     required this.userRole,
     required this.customerName,
     required this.bagId,
+    required this.previousState,
     required this.status,
     required this.date,
   });
   late final String userName;
   late final String userRole;
   late final String customerName;
+  late final String previousState;
   late final int bagId;
   late final String status;
   late final String date;
@@ -44,6 +46,7 @@ class Data {
     userRole = json['user_role'];
     customerName = json['customer_name'];
     bagId = json['bag_id'];
+    previousState = json['previous_state'];
     status = json['status'];
     date = json['date'];
   }
@@ -54,6 +57,7 @@ class Data {
     _data['user_role'] = userRole;
     _data['customer_name'] = customerName;
     _data['bag_id'] = bagId;
+    _data['previous_state'] = previousState;
     _data['status'] = status;
     _data['date'] = date;
     return _data;

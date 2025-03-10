@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qrreader/constant.dart';
 import 'package:qrreader/core/util/function/navigation.dart';
 import 'package:qrreader/core/widgets/custom_snack_bar/custom_snack_bar.dart';
@@ -172,7 +171,7 @@ class DesktopGenerateQRPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  if(generateQrCubit.isGenerateQr)GeneratedQrContainer(generateQrCubit: generateQrCubit)
+                  if(generateQrCubit.isGenerateQr)GeneratedQrContainer(isTablet:false,generateQrCubit: generateQrCubit)
                   else AddQrInfoContainer(generateQrCubit: generateQrCubit),
                   const SizedBox(height: 20),
                   generateQrCubit.isGenerateQr

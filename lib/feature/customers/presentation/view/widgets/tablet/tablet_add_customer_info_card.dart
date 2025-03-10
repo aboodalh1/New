@@ -84,11 +84,11 @@ class _TabletAddCustomerInformationCardState
                   ),
                   TabletCustomUnderLineTextField(
                     hint: 'Full name',
-                    controller: widget.customerCubit.newNameController,
+                    controller: widget.customerCubit.newNameController, onTap: () {  },
                   ),
                   TabletCustomUnderLineTextField(
                     hint: 'Customer Num',
-                    controller: widget.customerCubit.newPhoneNumberController,
+                    controller: widget.customerCubit.newPhoneNumberController, onTap: () {  },
                   ),
                   SizedBox(
                     height: 40,
@@ -115,7 +115,12 @@ class _TabletAddCustomerInformationCardState
                   ),
                   TabletCustomUnderLineTextField(
                     controller: widget.customerCubit.newLocationController,
-                    hint: 'Address',
+                    hint: 'Address', onTap: () {  },
+                  ),
+                  TabletCustomUnderLineTextField(
+                    onTap: ()=>widget.customerCubit.selectDate(context),
+                    controller: widget.customerCubit.dateController,
+                    hint: 'ExpiredDate',
                   ),
                   SizedBox(
                     height: 10.h,

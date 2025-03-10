@@ -23,7 +23,7 @@ class DesktopMessageItem extends StatelessWidget {
                 child: Text(
                   textAlign: TextAlign.center,
                   messagesCubit.allMessagesModel.data[index].type=='issue'?'Issue':
-                  messagesCubit.allMessagesModel.data[index].type=='register'?"Registeration":"Different read",style: TextStyle(
+                  messagesCubit.allMessagesModel.data[index].type=='register'?"Registeration":messagesCubit.allMessagesModel.data[index].type=="reset_password"?'Reset Password':"Different read",style: TextStyle(
                     color: kSecondaryColor,fontWeight: FontWeight.w500,fontSize: 3.5.sp
                 ),),
               ),

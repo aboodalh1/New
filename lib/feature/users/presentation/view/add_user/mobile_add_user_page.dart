@@ -150,13 +150,13 @@ class MobileAddUserPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(
+                  if(!isEdit) const SizedBox(
                     height: 10,
                   ),
-                  const PaddingText(
+                  if(!isEdit)   const PaddingText(
                     title: 'Password',
                   ),
-                  SizedBox(
+                  if(!isEdit)    SizedBox(
                     width: 160.w,
                     height: 40,
                     child:  DesktopCustomAddUserField(controller: userCubit.passwordController, isSecure: userCubit.isSecure,
@@ -164,24 +164,24 @@ class MobileAddUserPage extends StatelessWidget {
                           onPressed: () {
                             userCubit.changePasswordSecure();
                           },
-                          icon: Icon(size: 6.sp,userCubit.passwordIcon),
+                          icon: Icon(size: 15.sp,userCubit.passwordIcon),
                         ),),
                   ),
-                  const SizedBox(
+                  if(!isEdit)   const SizedBox(
                     height: 10,
                   ),
-                  const PaddingText(
+                  if(!isEdit)    const PaddingText(
                     title: 'Confirm Password',
                   ),
-                  SizedBox(
+                  if(!isEdit) SizedBox(
                     width: 160.w,
                     height: 40,
-                    child:  DesktopCustomAddUserField(controller: userCubit.passwordController, isSecure: userCubit.confirmIsSecure,
+                    child:  DesktopCustomAddUserField(controller: userCubit.confirmPasswordController, isSecure: userCubit.confirmIsSecure,
                     suffixIcon: IconButton(
                           onPressed: () {
                             userCubit.changeConfirmPasswordSecure();
                           },
-                          icon: Icon(size: 6.sp,userCubit.confirmPasswordIcon),
+                          icon: Icon(size: 15.sp,userCubit.confirmPasswordIcon),
                         ),
                     ),
                   ),

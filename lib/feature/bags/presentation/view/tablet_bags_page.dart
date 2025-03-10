@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/core/util/function/navigation.dart';
@@ -27,6 +25,7 @@ class TabletBagsPage extends StatelessWidget {
           customSnackBar(context, state.error,duration: 10,color: kOnWayColor);
         }
         if(state is ChangeBagsStateSuccess){
+          if(Navigator.of(context).canPop()){Navigator.of(context).pop();}
           customSnackBar(context, 'State changed successfully',duration: 12);
         }
       },

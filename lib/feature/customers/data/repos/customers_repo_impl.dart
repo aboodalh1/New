@@ -41,7 +41,6 @@ class CustomersRepoImpl implements CustomersRepo {
   Future<Either<Failure, Response>> searchCustomers({required String search}) async{
     try{
       var response = await dioHelper.getData(endPoint: '/customers/list?state=all&search=$search');
-      print(response.data);
 
       return right(response);
     }catch(e){
@@ -71,12 +70,19 @@ class CustomersRepoImpl implements CustomersRepo {
       {required String fullName,
       required String phoneNumber,
       required String location,
+        required String expiredDate,
       required num driverID}) async{
     try{
-      var response = await dioHelper.postData(endPoint: '/customers/add',data: {
+      var response = await dioHelper.postData(endPoint: '/customers/add',data: phoneNumber.isEmpty? {
+        "name":fullName,
+        'address':location,
+        'expiry_date':expiredDate,
+        'driver_id':driverID,
+      }:{
         "name":fullName,
         'address':location,
         'phone':phoneNumber,
+        'expiry_date':expiredDate,
         'driver_id':driverID,
       });
       return right(response);
@@ -91,13 +97,14 @@ class CustomersRepoImpl implements CustomersRepo {
 
 
   @override
-  Future<Either<Failure,Response>> editCustomer({required num driverId,required String phoneNumber,required String name,required String location,required num id}) async{
+  Future<Either<Failure,Response>> editCustomer({required num driverId,required String phoneNumber,required String name,required String location,required String expiredDate,required num id}) async{
     try{
       var response = await dioHelper.postData(endPoint: '/customers/update',data: {
         "name":name,
         "address":location,
         "phone":phoneNumber,
         "driver_id":driverId,
+        "expiry_date":expiredDate,
         'id':id
       });
       return right(response);

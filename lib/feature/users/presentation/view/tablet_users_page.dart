@@ -6,7 +6,6 @@ import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 import 'package:qrreader/feature/users/presentation/view/add_user/add_user_page_view.dart';
 
 import '../../../../constant.dart';
-import '../../../../core/util/screen_util.dart';
 import '../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import '../../../../core/widgets/tablet/tablet_custom_loading_indicator.dart';
 import '../../../Auth/presentation/view/sign_in_page.dart';
@@ -26,22 +25,7 @@ class TabletUsersPage extends StatelessWidget {
       }
       customSnackBar(context, state.error);
     }
-    if(state is GetUsersSuccessState){
-      for (int i = 0; i < context.read<UserCubit>().allUsersModel.data.length; i++) {
-      if(context.read<UserCubit>().allUsersModel.data[i].id==1)continue;
-        context.read<UserCubit>().rows.add(DataRow(cells: [
-          DataCell(Text(context.read<UserCubit>().allUsersModel.data[i].name)),
-          DataCell(Text(context.read<UserCubit>().allUsersModel.data[i].phone)),
-          DataCell(Text(context.read<UserCubit>().allUsersModel.data[i].role)),
-          DataCell(Row(
-            children: [
-              CustomDeleteTextButton(userCubit: context.read<UserCubit>(), i:i,isTablet: true,),
-              CustomEditTextButton(userCubit: context.read<UserCubit>(), i: i,isTablet: true,)
-            ],
-          )),
-        ]));
-      }
-    }
+
   },
   builder: (context, state) {
     if(state is GetUsersLoadingState){
@@ -85,7 +69,7 @@ class TabletUsersPage extends StatelessWidget {
               const SizedBox(
                 height: 80,
               ),
-              userCubit.rows.isEmpty?
+              userCubit.allUsersModel.data.isEmpty?
                   const Center(child: Text("You Don't have users yet")):
               DataTable(
                   headingRowColor: MaterialStateProperty.all(kPrimaryColor),
@@ -119,7 +103,25 @@ class TabletUsersPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                  rows: userCubit.rows)
+                  rows: List.generate(userCubit.allUsersModel.data.length, (index) {
+                    return DataRow(cells: [
+                      DataCell(SizedBox(
+                          width: 86.w,
+                          child: Text(
+                            maxLines: 2,
+                            textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                              context.read<UserCubit>().allUsersModel.data[index].name))),
+                      DataCell(Text(context.read<UserCubit>().allUsersModel.data[index].phone)),
+                      DataCell(Text(context.read<UserCubit>().allUsersModel.data[index].role)),
+                      DataCell(Row(
+                        children: [
+                          CustomDeleteTextButton(userCubit: context.read<UserCubit>(), i:index,isTablet: true,),
+                          CustomEditTextButton(userCubit: context.read<UserCubit>(), i: index,isTablet: true,)
+                        ],
+                      )),
+                    ]);
+                  }))
             ],
           ),
         ),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:qrreader/constant.dart';
 import 'package:qrreader/core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import 'package:qrreader/feature/customers/data/model/all_customers_model.dart';
@@ -12,8 +14,41 @@ class CustomerCubit extends Cubit<CustomerState> {
   CustomersRepo customersRepo;
   AllCustomersModel allCustomersModel =
       AllCustomersModel(code: 1, message: 'message', data: []);
+  DateTime? selectedDate;
+  TextEditingController dateController = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
 
-  
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xff0F663C), // Selected date color
+              onPrimary: Colors.white, // Text color on selected date
+              surface: Colors.white, // Dialog background color
+            ),
+            dialogBackgroundColor:
+            Colors.white, // Overall dialog background color
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xff0F663C), // Button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+      dateController.text = DateFormat('yyyy-MM-dd').format(picked);
+    }
+  }
   
   Future<void> getAllCustomers({required String role}) async {
     emit(GetCustomersLoading());
@@ -78,20 +113,21 @@ class CustomerCubit extends Cubit<CustomerState> {
       {required String name,
       required String phoneNumber,
       required String location}) async {
-    if (name.isEmpty || phoneNumber.isEmpty || location.isEmpty) {
+    if (name.isEmpty || location.isEmpty) {
       customSnackBar(context, "All Fields required", color: kUnsubsicriber);
       return;
     }
     String phoneNumber2 = newPhoneNumberController.text;
-    if (newPhoneNumberController.text.startsWith('0')) {
+    if (newPhoneNumberController.text.startsWith('0') ||newPhoneNumberController.text.startsWith('+')) {
       phoneNumber2 = newPhoneNumberController.text.substring(1);
-    } else {
+    }
       emit(AddCustomersLoading());
       var result = await customersRepo.addNewCustomer(
           driverID: mapDrivers[newDriver]!,
           location: location,
           phoneNumber: phoneNumber2,
-          fullName: name);
+          fullName: name,
+          expiredDate: dateController.text);
       result.fold((failure) {
         emit(AddCustomersFailure(error: failure.errMessage));
       }, (r) {
@@ -101,7 +137,7 @@ class CustomerCubit extends Cubit<CustomerState> {
         newPhoneNumberController.clear();
         newLocationController.clear();
       });
-    }
+
   }
 
   Future<void> editCustomers(context,
@@ -109,17 +145,19 @@ class CustomerCubit extends Cubit<CustomerState> {
       required String name,
       required String location,
       required String phoneNumber}) async {
-    if (name.isEmpty || location.isEmpty || phoneNumber.isEmpty) {
+    if (name.isEmpty || location.isEmpty) {
       customSnackBar(context, "All Fields required", color: kUnsubsicriber);
     }
     if (phoneNumber.startsWith('0')) {
       phoneNumber = phoneNumber.substring(1);
-    } else {
+    }
+
       emit(EditCustomerLoading());
       var result = await customersRepo.editCustomer(
           driverId: mapDrivers[newDriver]??0,
           phoneNumber: phoneNumber,
           location: location,
+          expiredDate: dateController.text,
           name: name,
           id: id);
       result.fold((failure) {
@@ -128,7 +166,7 @@ class CustomerCubit extends Cubit<CustomerState> {
         emit(EditCustomerSuccess(message: r.data['message']));
         getAllCustomers(role: 'all');
       });
-    }
+
   }
 
   Future<void> activeCustomer({required num id}) async {

@@ -25,6 +25,10 @@ class MobileBagsPage extends StatelessWidget {
         if (state is ChangeBagsStateFailure) {
           customSnackBar(context, state.error,duration: 10);
         }
+        if(state is ChangeBagsStateSuccess){
+          if(Navigator.of(context).canPop()){Navigator.of(context).pop();}
+          customSnackBar(context, 'State changed successfully',duration: 12);
+        }
       },
       builder: (context, state) {
         if (state is GetBagsNumberLoading|| state is ChangeBagsStateLoading) {
@@ -43,7 +47,7 @@ class MobileBagsPage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           margin: EdgeInsets.only(left: 10.w),
-                          width: 125.w,
+                          width: 145.w,
                           height: 30,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.r),
@@ -57,7 +61,7 @@ class MobileBagsPage extends StatelessWidget {
                                   child: Text(
                                     "All",
                                     style: TextStyle(
-                                        color: kPrimaryColor, fontSize: 5.sp),
+                                        color: kPrimaryColor, fontSize: 7.sp),
                                   )),
                               const Spacer(),
                               const VerticalDivider(
@@ -72,7 +76,7 @@ class MobileBagsPage extends StatelessWidget {
                                   child: Text(
                                     "Available",
                                     style: TextStyle(
-                                        color: kPrimaryColor, fontSize: 5.sp),
+                                        color: kPrimaryColor, fontSize: 7.sp),
                                   )),
                               const Spacer(),
                               const VerticalDivider(
@@ -87,7 +91,7 @@ class MobileBagsPage extends StatelessWidget {
                                   child: Text(
                                     "Unavailable",
                                     style: TextStyle(
-                                        color: kUnsubsicriber, fontSize: 5.sp),
+                                        color: kUnsubsicriber, fontSize: 7.sp),
                                   )),
                             ],
                           ),

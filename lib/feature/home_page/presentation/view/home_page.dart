@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.dart';
-import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.dart';
 import 'package:qrreader/feature/home_page/presentation/view/desktop_home_page.dart';
 import 'package:qrreader/feature/home_page/presentation/view/mobile_home_page.dart';
 import 'package:qrreader/feature/home_page/presentation/view/tablet_home_page.dart';
-import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
-import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 
 
 class HomePage extends StatelessWidget {

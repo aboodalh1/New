@@ -32,6 +32,11 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
     return isEdit
         ? BlocConsumer<CustomerCubit, CustomerState>(
             listener: (context, state) {
+              if(state is DisAttachCustomerSuccessState){
+                if(Navigator.of(context).canPop()){
+                  Navigator.of(context).pop();
+                }
+              }
               if (state is EditCustomerSuccess) {
                 setState(() {
                   isEdit = !isEdit;
@@ -86,7 +91,7 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                                     phoneNumber:
                                         widget.editPhoneNumberController.text,
                                     location:
-                                        widget.editLocationController.text);
+                                        widget.editLocationController.text, );
                               },
                               fill: true),
                         ),
@@ -98,11 +103,11 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                     ),
                     TabletCustomUnderLineTextField(
                       hint: 'Full name',
-                      controller: widget.editNameController,
+                      controller: widget.editNameController, onTap: () {  },
                     ),
                     TabletCustomUnderLineTextField(
                       hint: 'Customer Num',
-                      controller: widget.editPhoneNumberController,
+                      controller: widget.editPhoneNumberController, onTap: () {  },
                     ),
                     SizedBox(
                       height: 40,
@@ -137,7 +142,12 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                     ),
                     TabletCustomUnderLineTextField(
                       controller: widget.editLocationController,
-                      hint: 'Address',
+                      hint: 'Address', onTap: () {  },
+                    ),
+                    TabletCustomUnderLineTextField(
+                      onTap: ()=>widget.customerCubit.selectDate(context),
+                      controller: widget.customerCubit.dateController,
+                      hint: 'ExpiredDate',
                     ),
                     SizedBox(
                       height: 10.h,
@@ -266,7 +276,7 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                                 ));
                           },
                           style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
+                              padding: WidgetStateProperty.all(
                                   EdgeInsets.zero)),
                           child: Text(
                               '${widget.customerCubit.allCustomersModel.data[widget.index].bags[1]}',
@@ -353,8 +363,8 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                             },
                             style: ButtonStyle(
                                 padding:
-                                    MaterialStateProperty.all(EdgeInsets.zero),
-                                backgroundColor: MaterialStateProperty.all(
+                                    WidgetStateProperty.all(EdgeInsets.zero),
+                                backgroundColor: WidgetStateProperty.all(
                                     widget.customerCubit.allCustomersModel
                                                 .data[widget.index].state ==
                                             'active'
@@ -420,9 +430,9 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                             },
                             style: ButtonStyle(
                                 padding:
-                                    MaterialStateProperty.all(EdgeInsets.zero),
+                                    WidgetStateProperty.all(EdgeInsets.zero),
                                 backgroundColor:
-                                    MaterialStateProperty.all(kOnWayColor)),
+                                    WidgetStateProperty.all(kOnWayColor)),
                             child: Text(
                               'Delete',
                               style: TextStyle(
@@ -521,9 +531,9 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
+                            padding: WidgetStateProperty.all(
                                 const EdgeInsets.all(10)),
-                            backgroundColor: MaterialStateProperty.all(widget
+                            backgroundColor: WidgetStateProperty.all(widget
                                         .customerCubit
                                         .allCustomersModel
                                         .data[widget.index]
@@ -575,6 +585,7 @@ class _TabletCustomerCardState extends State<TabletCustomerCard> {
                       children: [
                         TextButton(
                           onPressed: () {
+                            widget.customerCubit.dateController.text = widget.customerCubit.allCustomersModel.data[widget.index].expiryDate=='not selected yet'?'':widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.length>9?widget.customerCubit.allCustomersModel.data[widget.index].expiryDate.substring(0,10):widget.customerCubit.allCustomersModel.data[widget.index].expiryDate;
                             widget.editNameController.text = widget
                                 .customerCubit.allCustomersModel.data[widget.index].name;
                             widget.editPhoneNumberController.text = widget

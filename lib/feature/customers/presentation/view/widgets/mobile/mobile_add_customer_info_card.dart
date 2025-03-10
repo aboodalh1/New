@@ -91,11 +91,11 @@ class _MobileAddCustomerInformationCardState
                 ),
                 MobileCustomUnderLineTextField(
                   hint: 'Full name',
-                  controller: widget.customerCubit.newNameController,
+                  controller: widget.customerCubit.newNameController, onTap: () {  },
                 ),
                 MobileCustomUnderLineTextField(
                     hint: 'Customer Num',
-                    controller: widget.customerCubit.newPhoneNumberController),
+                    controller: widget.customerCubit.newPhoneNumberController, onTap: () {  },),
                 SizedBox(
                   height: 30,
                   width: 100.w,
@@ -134,7 +134,12 @@ class _MobileAddCustomerInformationCardState
                 ),
                 MobileCustomUnderLineTextField(
                   controller: widget.customerCubit.newLocationController,
-                  hint: 'Address',
+                  hint: 'Address', onTap: () {  },
+                ),
+                MobileCustomUnderLineTextField(
+                  onTap: ()=>widget.customerCubit.selectDate(context),
+                  controller: widget.customerCubit.dateController,
+                  hint: 'Expired Date',
                 ),
                 SizedBox(
                   height: 15.h,

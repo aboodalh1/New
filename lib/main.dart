@@ -16,12 +16,11 @@ import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 import 'package:qrreader/feature/Auth/presentation/view/sign_in_page.dart';
-import 'bloc_observer.dart';
+
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = MyBlocObserver();
   setUrlStrategy(PathUrlStrategy());
   SharedPreferencesPlugin.registerWith(Registrar());
   UrlLauncherPlugin.registerWith(Registrar());

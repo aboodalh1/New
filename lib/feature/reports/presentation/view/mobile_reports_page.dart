@@ -8,7 +8,6 @@ import 'package:qrreader/feature/reports/presentation/view/widgets/tablet/tablet
 import '../../../../constant.dart';
 import '../../../../core/util/asset_loader.dart';
 import '../../../../core/widgets/tablet/tablet_status_cell.dart';
-import '../../../home_page/presentation/view/widgets/custom_elevated_button.dart';
 
 class MobileReportsPage extends StatelessWidget {
   const MobileReportsPage({super.key});
@@ -55,6 +54,13 @@ class MobileReportsPage extends StatelessWidget {
                       .data
                       .table[i]
                       .customerName, isHeader: false,
+                )), DataCell(MobileCustomText(
+                  title: context
+                      .read<ReportsCubit>()
+                      .allReportsModel
+                      .data
+                      .table[i]
+                      .data[j].bagId.toString(), isHeader: false,
                 )),
                 DataCell(
                   TabletStatusCell(
@@ -149,6 +155,8 @@ class MobileReportsPage extends StatelessWidget {
                         style: TextStyle(color: Colors.black, fontSize: 6.sp),
                         onTap: () => reportsCubit.selectDate(context),
                         decoration: const InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: kPrimaryColor)),
                             hintText: 'Select Date',
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: kPrimaryColor)),
@@ -256,13 +264,18 @@ class MobileReportsPage extends StatelessWidget {
                         DataColumn(
                           label: MobileCustomText(
                             isHeader: true,
-                            title: 'Customer Name',
+                            title: "Driver Name",
                           ),
                         ),
                         DataColumn(
                           label: MobileCustomText(
                             isHeader: true,
-                            title: "Driver Name",
+                            title: 'Customer Name',
+                          ),
+                        ), DataColumn(
+                          label: MobileCustomText(
+                            isHeader: true,
+                            title: 'Bag ID',
                           ),
                         ),
                         DataColumn(

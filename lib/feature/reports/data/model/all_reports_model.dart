@@ -97,15 +97,18 @@ class TableData{
   late final String bagState;
   late final String driverName;
   late final String date;
+  late final num bagId;
   TableData({
     required this.bagState,
     required this.driverName,
     required this.date,
+    required this.bagId,
 });
   TableData.fromJson(Map<String, dynamic> json){
     bagState = json['bag_state'];
     driverName = json['driver_name'];
     date = json['date'];
+    bagId = json['bag_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +116,7 @@ class TableData{
     _data['bag_state'] = bagState;
     _data['driver_name'] = driverName;
     _data['date'] = date;
+    _data['bag_id'] = bagId;
     return _data;
   }
 }

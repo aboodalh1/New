@@ -133,7 +133,9 @@ class TabletHomePageBody extends StatelessWidget {
                                   title:'${context.read<HomeCubit>().homeReadsModel.data[i].bagId}')),
                               DataCell(TabletStatusCell(
                                 title: context.read<HomeCubit>().homeReadsModel.data[i].status=='stored_stage_1'||context.read<HomeCubit>().homeReadsModel.data[i].status=='stored_stage_2'? 'At Store':
-                                context.read<HomeCubit>().homeReadsModel.data[i].status=='shipping'?'On Way':'Delivered',
+                                context.read<HomeCubit>().homeReadsModel.data[i].status=='shipping' && context.read<HomeCubit>().homeReadsModel.data[i].previousState=="stored_stage_2"? 'To Customer':
+                                context.read<HomeCubit>().homeReadsModel.data[i].status=='shipping' && context.read<HomeCubit>().homeReadsModel.data[i].previousState=="delivered"? "To Kitchen"
+                                    :'Delivered',
                                 color: context.read<HomeCubit>().homeReadsModel.data[i].status=='stored_stage_1' ||context.read<HomeCubit>().homeReadsModel.data[i].status=='stored_stage_2'?kAtStoreColor:
                                 context.read<HomeCubit>().homeReadsModel.data[i].status=='shipping'?kOnWayColor:kAtCustomerColor,
                               )),

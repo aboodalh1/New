@@ -11,6 +11,7 @@ abstract class CustomersRepo {
   Future<Either<Failure, Response>> addNewCustomer(
       {required String fullName,
         required String phoneNumber,
+        required String expiredDate,
         required String location,
         required num driverID});
 
@@ -25,5 +26,5 @@ abstract class CustomersRepo {
 
   Future<Either<Failure, Response>> disAttachCustomer({required num customerId,required num bagId});
 
-  Future<Either<Failure,Response>>editCustomer({required num driverId,required String phoneNumber,required String name,required String location,required num id});}
+  Future<Either<Failure,Response>>editCustomer({required num driverId,required String phoneNumber,required String name,required String location,required String expiredDate,required num id});}
 

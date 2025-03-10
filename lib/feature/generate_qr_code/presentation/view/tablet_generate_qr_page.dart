@@ -69,7 +69,9 @@ class TabletGenerateQrPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   generateQrCubit.isGenerateQr
-                      ? GeneratedQrContainer(generateQrCubit: generateQrCubit)
+                      ? GeneratedQrContainer(
+                      isTablet: true,
+                      generateQrCubit: generateQrCubit)
                       : AddQrInfoContainer(generateQrCubit: generateQrCubit),
                   const SizedBox(height: 20),
                   generateQrCubit.isGenerateQr

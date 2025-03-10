@@ -9,11 +9,11 @@ import '../../manger/generate_qr_cubit.dart';
 class GeneratedQrContainer extends StatefulWidget {
   const GeneratedQrContainer({
     super.key,
-    required this.generateQrCubit,
+    required this.generateQrCubit, required this.isTablet,
   });
 
   final GenerateQrCubit generateQrCubit;
-
+  final bool isTablet;
   @override
   State<GeneratedQrContainer> createState() => _GeneratedQrContainerState();
 }
@@ -31,7 +31,7 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      width: 200.w,
+      width: 185.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.8),
@@ -66,13 +66,15 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
             Center(
               child: Column(
                 children: [
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
+                  SizedBox(
+                    width:120.w,
                     child: Text(
+                      maxLines: 4,
+                      softWrap: true,
                       textAlign: TextAlign.center,
                       widget.generateQrCubit.selectedCustomer,
-                      style: const TextStyle(
-                          fontSize: 25.67, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          fontSize: widget.isTablet?15:24, fontWeight: FontWeight.w400),
                     ),
                   ),
                   FittedBox(
@@ -80,8 +82,16 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
                     child: Text(
                         textAlign: TextAlign.center,
                         'Bag ID: ${widget.generateQrCubit.generateQrModel.data.bagId}',
-                        style: const TextStyle(
-                            fontSize: 25.67, fontWeight: FontWeight.w400)),
+                        style:  TextStyle(
+                            fontSize: widget.isTablet?15:25.67, fontWeight: FontWeight.w400)),
+                  ),
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate.substring(0,10)}',
+                        style: TextStyle(
+                            fontSize: widget.isTablet?15: 25.67, fontWeight: FontWeight.w400)),
                   ),
                 ],
               ),

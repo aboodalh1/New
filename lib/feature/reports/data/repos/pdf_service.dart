@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:html';
 
@@ -6,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-import 'package:qrreader/feature/reports/data/model/all_reports_model.dart';
 import 'package:qrreader/feature/reports/presentation/manger/reports_cubit.dart';
 
-// import 'customer_model.dart';
 
 class PdfReportService {
   ReportsCubit reportsCubit;
@@ -70,10 +67,10 @@ class PdfReportService {
           ? "-"
           : reportsCubit.tableData[i].data[0].bagState == "stored_stage_2" ||
                   reportsCubit.tableData[i].data[0].bagState == "stored_stage_1"
-              ? "At Store"
+              ? "At Store \n ID:${reportsCubit.tableData[i].data[0].bagId}"
               : reportsCubit.tableData[i].data[0].bagState == "shipping"
-                  ? "On Way"
-                  : "Delivered";
+                  ? "On Way \n ID:${reportsCubit.tableData[i].data[0].bagId}"
+                  : "Delivered \n ID:${reportsCubit.tableData[i].data[0].bagId}";
       //-------------------------
       String correctBag2State = reportsCubit.tableData[i].data.isEmpty
           ? "-"
@@ -83,10 +80,10 @@ class PdfReportService {
                           "stored_stage_2" ||
                       reportsCubit.tableData[i].data[1].bagState ==
                           "stored_stage_1"
-                  ? "At Store"
+                  ? "At Store \n ID:${reportsCubit.tableData[i].data[0].bagId}"
                   : reportsCubit.tableData[i].data[1].bagState == "shipping"
-                      ? "On Way"
-                      : "Delivered";
+                      ? "On Way \n ID:${reportsCubit.tableData[i].data[0].bagId}"
+                      : "Delivered \n ID:${reportsCubit.tableData[i].data[0].bagId}";
       PdfGridRow row = grid.rows.add();
       //data[0] here is the bag1
       //data[1] here is the bag2

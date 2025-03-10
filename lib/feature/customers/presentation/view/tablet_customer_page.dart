@@ -7,7 +7,6 @@ import 'package:qrreader/feature/users/presentation/manger/user_cubit.dart';
 
 import '../../../../constant.dart';
 import '../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
-import '../../../../core/widgets/desktop/desktop_custom_loading_indicator.dart';
 import '../../../home_page/presentation/view/widgets/desktop/custom_search_bar.dart';
 import '../manger/customer_cubit.dart';
 
@@ -21,7 +20,7 @@ class TabletCustomerPage extends StatelessWidget {
   },
   builder: (context, state) {
     if (state is GetUsersLoadingState) {
-      return Center(
+      return const Center(
         child: TabletLoadingIndicator(),
       );
     }

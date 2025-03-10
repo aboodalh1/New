@@ -9,8 +9,10 @@ class MobileCustomUnderLineTextField extends StatelessWidget {
   const MobileCustomUnderLineTextField({
     super.key,
     required this.hint, required this.controller,
+    required this.onTap
   });
   final TextEditingController controller;
+  final  GestureTapCallback onTap;
   final String hint;
 
   @override
@@ -23,15 +25,16 @@ class MobileCustomUnderLineTextField extends StatelessWidget {
         data: const TextSelectionThemeData(
             cursorColor: kPrimaryColor , selectionHandleColor: kPrimaryColor , selectionColor: kPrimaryColor),
         child: TextFormField(
+          onTap: onTap,
           controller: controller,
           style: TextStyle(fontSize:10.sp),
           cursorColor: kPrimaryColor,
           cursorErrorColor: kPrimaryColor,
           decoration:
           InputDecoration(
-              border: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              border: const UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
+              focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: kPrimaryColor)),
             hoverColor: kPrimaryColor,
             focusColor: kPrimaryColor,
               hintText: hint, hintStyle:TextStyle(fontSize: 8.sp),),

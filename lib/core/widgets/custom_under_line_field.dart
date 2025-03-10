@@ -8,10 +8,12 @@ class CustomUnderLineTextField extends StatelessWidget {
   const CustomUnderLineTextField({
     super.key,
     required this.hint, required this.controller,
+    required this.onTap
   });
 
   final String hint;
 final TextEditingController controller;
+final GestureTapCallback onTap;
   @override
   Widget build(BuildContext context) {
     ScreenSizeUtil.initSize(context);
@@ -19,6 +21,7 @@ final TextEditingController controller;
       height: 40,
       width: 40.w,
       child: TextFormField(
+        onTap: onTap,
         controller: controller,
         cursorColor: kPrimaryColor,
         decoration:

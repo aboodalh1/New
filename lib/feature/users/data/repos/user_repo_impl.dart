@@ -33,7 +33,7 @@ class UserRepoImpl implements UserRepo {
                 "phone":phone,
                 "employee_number":"1243524543",
                 "role":role,
-                "image": await MultipartFile.fromBytes(image,
+                "image": MultipartFile.fromBytes(image,
                     filename: phone,
                     contentType: Headers.jsonMimeType),
                 "password":password,
@@ -84,7 +84,7 @@ class UserRepoImpl implements UserRepo {
         "name":name,
         "phone":phone,
         "employee_number":"1243524543",
-        "image": await MultipartFile.fromBytes(image,
+        "image": MultipartFile.fromBytes(image,
             filename: phone,
             contentType: Headers.jsonMimeType),
         "role":role,
@@ -92,7 +92,6 @@ class UserRepoImpl implements UserRepo {
       });
       return right(response);
     }catch(e){
-      print(e.toString());
       if(e is DioException){
         return left(ServerFailure.fromDioError(e));
       }
