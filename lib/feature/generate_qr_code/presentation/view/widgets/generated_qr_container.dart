@@ -85,7 +85,7 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
                         style:  TextStyle(
                             fontSize: widget.isTablet?15:25.67, fontWeight: FontWeight.w400)),
                   ),
-                  FittedBox(
+                  if(widget.generateQrCubit.generateQrModel.data.expiryDate.length>10)FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
                         textAlign: TextAlign.center,

@@ -86,11 +86,11 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
                         style:  TextStyle(
                             fontSize: 20.sp, fontWeight: FontWeight.w400)),
                   ),
-                  FittedBox(
+                  if(widget.generateQrCubit.generateQrModel.data.expiryDate.length>10)FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
                         textAlign: TextAlign.center,
-                        'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate}',
+                        'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate.substring(0,10)}',
                         style: TextStyle(
                             fontSize: 20.sp, fontWeight: FontWeight.w400)),
                   ),
