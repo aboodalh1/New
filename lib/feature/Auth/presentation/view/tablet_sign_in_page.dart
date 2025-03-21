@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qrreader/core/util/function/navigation.dart';
+import 'package:qrreader/dashboard.dart';
 import 'package:qrreader/feature/Auth/presentation/view/widgets/tablet_widgets/tablet_login_card.dart';
 import 'package:qrreader/feature/Auth/presentation/view/widgets/title_on_image.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 
 import '../../../../constant.dart';
 import '../../../../core/util/asset_loader.dart';
@@ -18,7 +21,7 @@ class TabletSignInPage extends StatelessWidget {
         if(state is SignInLoadingState){
           customSnackBar(context, 'Loading...',color: kUnsubsicriber,duration: 200);
         }
-        if (state is SignInFailureState) {
+         if (state is SignInFailureState) {
           if(state.error=='Session Expired'){
             customSnackBar(context, 'Wrong password or phone number', color: kOnWayColor);
           }
@@ -26,6 +29,10 @@ class TabletSignInPage extends StatelessWidget {
             customSnackBar(context, state.error, color: kOnWayColor);
           }
         }
+if(state  is SignInSuccessState){
+          navigateAndFinish(context, BlocProvider.value(value: BlocProvider.of<QrsListToDownloadCubit>(context),child: const DashboardPage(startRoute: 'home',)));
+
+}
       },
       builder: (context, state) {
         AuthCubit authCubit = context.read<AuthCubit>();

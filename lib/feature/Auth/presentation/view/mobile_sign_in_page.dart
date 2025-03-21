@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/constant.dart';
 import 'package:qrreader/core/util/asset_loader.dart';
+import 'package:qrreader/core/util/function/navigation.dart';
+import 'package:qrreader/dashboard.dart';
 import 'package:qrreader/feature/Auth/presentation/view/widgets/mobile_widgets/mobile_login_card.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 import '../../../../core/widgets/custom_snack_bar/custom_snack_bar.dart';
 import '../manger/auth_cubit.dart';
 
@@ -23,6 +26,10 @@ class MobileSignInPage extends StatelessWidget {
           }
           else customSnackBar(context, state.error, color: kOnWayColor);
         }
+        if(state  is SignInSuccessState){
+          navigateAndFinish(context, BlocProvider.value(value: BlocProvider.of<QrsListToDownloadCubit>(context),child: const DashboardPage(startRoute: 'home',)));
+
+}
       },
       builder: (context, state) {
         AuthCubit authCubit = context.read<AuthCubit>();

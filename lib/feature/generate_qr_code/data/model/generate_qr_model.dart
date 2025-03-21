@@ -6,12 +6,12 @@ class GenerateQrModel {
   });
   late final int code;
   late final String message;
-  late final Data data;
+  late final GenerateQrDataModel data;
 
-  GenerateQrModel.fromJson(Map<String, dynamic> json){
+  GenerateQrModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = Data.fromJson(json['data']);
+    data = GenerateQrDataModel.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -23,8 +23,8 @@ class GenerateQrModel {
   }
 }
 
-class Data {
-  Data({
+class GenerateQrDataModel {
+  GenerateQrDataModel({
     required this.qrContent,
     required this.customerName,
     required this.bagId,
@@ -34,11 +34,11 @@ class Data {
   late final String expiryDate;
   late final num bagId;
 
-  Data.fromJson(Map<String, dynamic> json){
+  GenerateQrDataModel.fromJson(Map<String, dynamic> json) {
     qrContent = json['qr_content'];
     customerName = json['customer_name'];
     bagId = json['bag_id'];
-    expiryDate = json['expiry_date']??'';
+    expiryDate = json['expiry_date'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

@@ -43,7 +43,8 @@ class AuthCubit extends Cubit<AuthState> {
         else {
           emit(SignInSuccessState());
           customSnackBar(context, userModel.message);
-          navigateAndFinish(context, const DashboardPage(startRoute: 'home',));
+//zak
+          // navigateAndFinish(context, const DashboardPage(startRoute: 'home',));
         }});
     }
   }

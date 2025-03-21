@@ -8,6 +8,7 @@ import 'package:qrreader/core/util/service_locator.dart';
 import 'package:qrreader/dashboard.dart';
 import 'package:qrreader/feature/customers/data/repos/customers_repo_impl.dart';
 import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 import 'package:qrreader/feature/reports/data/repos/reports_repo_impl.dart';
 import 'package:qrreader/feature/reports/presentation/manger/reports_cubit.dart';
 import 'package:qrreader/feature/users/data/repos/user_repo_impl.dart';
@@ -17,76 +18,98 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 import 'package:qrreader/feature/Auth/presentation/view/sign_in_page.dart';
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setUrlStrategy(PathUrlStrategy());
   SharedPreferencesPlugin.registerWith(Registrar());
   UrlLauncherPlugin.registerWith(Registrar());
   await GetStorage.init();
-  String lastToken=await DioHelper.getToken()??'';
-  String lastRoute=await DioHelper.getLastRoute()??'home';
+  String lastToken = await DioHelper.getToken() ?? '';
+  String lastRoute = await DioHelper.getLastRoute() ?? 'home';
   setupServiceLocator();
-  runApp( MyApp(startRoute: lastRoute,isToken: lastToken,));
+  runApp(MyApp(
+    startRoute: lastRoute,
+    isToken: lastToken,
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.startRoute, required this.isToken});
   final String startRoute;
   final String isToken;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+         late QrsListToDownloadCubit qrsListToDownloadCubit;
+
+  @override
+  void initState() {
+    super.initState();
+            qrsListToDownloadCubit = QrsListToDownloadCubit();
+
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: const Size(360, 660),
         child: MultiBlocProvider(
-  providers: [
-    BlocProvider(
-  create: (context) => UserCubit(getIt.get<UserRepoImpl>())..getAllUser(role: 'all')..getCurrentUser(),
-),
-    BlocProvider(
-      create: (context) => CustomerCubit(getIt.get<CustomersRepoImpl>())..getAllCustomers(role: 'all'),
-    ),
-    BlocProvider(
-      create: (context) => ReportsCubit(getIt.get<ReportsRepoImpl>())..getAllReports(),
-    ),
-  ],
-  child: MaterialApp(
-          theme: ThemeData(
-            textSelectionTheme: const TextSelectionThemeData(
-              selectionColor: kSecondaryColor,
-              selectionHandleColor: kPrimaryColor,
-              cursorColor: kPrimaryColor
+          providers: [
+             BlocProvider.value(value: qrsListToDownloadCubit),
+            BlocProvider(
+              create: (context) => UserCubit(getIt.get<UserRepoImpl>())
+                ..getAllUser(role: 'all')
+                ..getCurrentUser(),
             ),
-            appBarTheme: const AppBarTheme(
-              backgroundColor: kPrimaryColor,
-              titleTextStyle: TextStyle(color: Colors.white),
-              iconTheme: IconThemeData(color: Colors.white)
+            BlocProvider(
+              create: (context) => CustomerCubit(getIt.get<CustomersRepoImpl>())
+                ..getAllCustomers(role: 'all'),
             ),
-              datePickerTheme: DatePickerThemeData(
-                inputDecorationTheme: InputDecorationTheme(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+            BlocProvider(
+              create: (context) =>
+                  ReportsCubit(getIt.get<ReportsRepoImpl>())..getAllReports(),
+            ),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                textSelectionTheme: const TextSelectionThemeData(
+                    selectionColor: kSecondaryColor,
+                    selectionHandleColor: kPrimaryColor,
+                    cursorColor: kPrimaryColor),
+                appBarTheme: const AppBarTheme(
+                    backgroundColor: kPrimaryColor,
+                    titleTextStyle: TextStyle(color: Colors.white),
+                    iconTheme: IconThemeData(color: Colors.white)),
+                datePickerTheme: DatePickerThemeData(
+                  inputDecorationTheme: InputDecorationTheme(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: kPrimaryColor),
+                    ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: kPrimaryColor),
-                  ),
+                  cancelButtonStyle: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.black)),
+                  confirmButtonStyle: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all(kSecondaryColor)),
                 ),
-                
-                cancelButtonStyle: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.black)
-                ),
-                confirmButtonStyle: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(kSecondaryColor)
-                ),
-              ),
-              fontFamily: 'Mono',
-              scaffoldBackgroundColor: const Color(0xffF8F9FB)
+                fontFamily: 'Mono',
+                scaffoldBackgroundColor: const Color(0xffF8F9FB)),
+            initialRoute: widget.startRoute,
+            home: widget.isToken != ''
+                ? BlocProvider.value(value: qrsListToDownloadCubit,
+                  child: DashboardPage(
+                      startRoute: widget.startRoute,
+                    ),
+                )
+                : BlocProvider.value(value: qrsListToDownloadCubit,child: const SignInPage()),
           ),
-          initialRoute: startRoute,
-          home:  isToken!=''?DashboardPage(startRoute: startRoute,):const SignInPage(),
-        ),
-));
+        ));
   }
 }

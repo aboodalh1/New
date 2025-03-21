@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 abstract class Failure {
@@ -26,18 +28,21 @@ class ServerFailure extends Failure {
         }
         return ServerFailure('Unexpected Error, Please try again!');
       default:
+        log("${dioError.message}");
+        log("${dioError.type}");
+        log("${dioError.response}");
         return ServerFailure('Check your connection');
     }
   }
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
-    if(statusCode==401) {
-      return ServerFailure('Session Expired');}
-    if (statusCode == 400 || statusCode == 403||statusCode==422) {
+    if (statusCode == 401) {
+      return ServerFailure('Session Expired');
+    }
+    if (statusCode == 400 || statusCode == 403 || statusCode == 422) {
       return ServerFailure('${response['message'] ?? "Connection error"} ');
-
     } else if (statusCode == 404) {
-      return ServerFailure(response['message']);}
-    else if (statusCode == 405) {
+      return ServerFailure(response['message']);
+    } else if (statusCode == 405) {
       return ServerFailure(response['message'] ?? 'something went wrong');
     } else if (statusCode == 500) {
       return ServerFailure('Internal Server error, Please try later');

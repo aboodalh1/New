@@ -7,6 +7,7 @@ import 'package:qrreader/feature/Auth/presentation/manger/auth_cubit.dart';
 import 'package:qrreader/feature/Auth/presentation/view/desktop_sign_in_page.dart';
 import 'package:qrreader/feature/Auth/presentation/view/mobile_sign_in_page.dart';
 import 'package:qrreader/feature/Auth/presentation/view/tablet_sign_in_page.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -16,18 +17,33 @@ class SignInPage extends StatelessWidget {
     ScreenSizeUtil.initSize(context);
     return LayoutBuilder(builder: (context, constraints) {
       if (ScreenSizeUtil.screenWidth <= 700) {
-        return BlocProvider(
+        return MultiBlocProvider(
+          providers: [
+             BlocProvider(
           create: (context) => AuthCubit(getIt.get<AuthRepoImpl>()),
+             ),
+             BlocProvider.value(value: BlocProvider.of<QrsListToDownloadCubit>(context),),
+          ],
           child: const MobileSignInPage(),
         );
       }
       if (ScreenSizeUtil.screenWidth <= 1000) {
-        return BlocProvider(
+        return MultiBlocProvider(
+          providers: [
+             BlocProvider(
           create: (context) => AuthCubit(getIt.get<AuthRepoImpl>()),
+             ),
+             BlocProvider.value(value: BlocProvider.of<QrsListToDownloadCubit>(context),),
+          ],
           child: const TabletSignInPage(),
         );} else {
-        return BlocProvider(
+        return MultiBlocProvider(
+          providers: [
+             BlocProvider(
           create: (context) => AuthCubit(getIt.get<AuthRepoImpl>()),
+             ),
+             BlocProvider.value(value: BlocProvider.of<QrsListToDownloadCubit>(context),),
+          ],
           child: const DesktopSignInPage(),
         );
       }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qrreader/feature/generate_qr_code/data/model/generate_qr_model.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 
 import '../../../../../constant.dart';
 import '../../manger/generate_qr_cubit.dart';
@@ -9,7 +11,8 @@ import '../../manger/generate_qr_cubit.dart';
 class GeneratedQrContainer extends StatefulWidget {
   const GeneratedQrContainer({
     super.key,
-    required this.generateQrCubit, required this.isTablet,
+    required this.generateQrCubit,
+    required this.isTablet,
   });
 
   final GenerateQrCubit generateQrCubit;
@@ -22,9 +25,18 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
   @override
   void initState() {
     super.initState();
-    context.read<GenerateQrCubit>().printContainer(
-        name: widget.generateQrCubit.generateQrModel.data.customerName,
-        bagID: widget.generateQrCubit.generateQrModel.data.bagId);
+    BlocProvider.of<QrsListToDownloadCubit>(context)
+        .state
+        .qrList
+        .add(GenerateQrDataModel(
+            qrContent: widget.generateQrCubit.generateQrModel.data.qrContent,
+            customerName: widget.generateQrCubit.selectedCustomer,
+            // customerName: widget.generateQrCubit.generateQrModel.data.customerName,
+            bagId: widget.generateQrCubit.generateQrModel.data.bagId));
+    //zak
+    // context.read<GenerateQrCubit>().printContainer(
+    //     name: widget.generateQrCubit.generateQrModel.data.customerName,
+    //     bagID: widget.generateQrCubit.generateQrModel.data.bagId);
   }
 
   @override
@@ -67,14 +79,15 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
               child: Column(
                 children: [
                   SizedBox(
-                    width:120.w,
+                    width: 120.w,
                     child: Text(
                       maxLines: 4,
                       softWrap: true,
                       textAlign: TextAlign.center,
                       widget.generateQrCubit.selectedCustomer,
                       style: TextStyle(
-                          fontSize: widget.isTablet?15:24, fontWeight: FontWeight.w400),
+                          fontSize: widget.isTablet ? 15 : 24,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                   FittedBox(
@@ -82,17 +95,22 @@ class _GeneratedQrContainerState extends State<GeneratedQrContainer> {
                     child: Text(
                         textAlign: TextAlign.center,
                         'Bag ID: ${widget.generateQrCubit.generateQrModel.data.bagId}',
-                        style:  TextStyle(
-                            fontSize: widget.isTablet?15:25.67, fontWeight: FontWeight.w400)),
-                  ),
-                  if(widget.generateQrCubit.generateQrModel.data.expiryDate.length>10)FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                        textAlign: TextAlign.center,
-                        'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate.substring(0,10)}',
                         style: TextStyle(
-                            fontSize: widget.isTablet?15: 25.67, fontWeight: FontWeight.w400)),
+                            fontSize: widget.isTablet ? 15 : 25.67,
+                            fontWeight: FontWeight.w400)),
                   ),
+                  if (widget.generateQrCubit.generateQrModel.data.expiryDate
+                          .length >
+                      10)
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          'Expired Date: ${widget.generateQrCubit.generateQrModel.data.expiryDate.substring(0, 10)}',
+                          style: TextStyle(
+                              fontSize: widget.isTablet ? 15 : 25.67,
+                              fontWeight: FontWeight.w400)),
+                    ),
                 ],
               ),
             ),

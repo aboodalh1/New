@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/constant.dart';
 
@@ -9,8 +10,9 @@ class CustomTextField extends StatelessWidget {
   final bool isTablet;
   final bool isCenter;
   final bool isSecure;
+   final bool isNumberOnly;
   const CustomTextField(
-      {super.key,required this.isTablet, required this.controller, required this.label, this.suffixIcon, required this.isCenter, required this.isSecure});
+      {super.key, this.isNumberOnly = false,  required this.isTablet, required this.controller, required this.label, this.suffixIcon, required this.isCenter, required this.isSecure});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,10 @@ class CustomTextField extends StatelessWidget {
         obscureText: isSecure,
           controller: controller,
           textAlign: isCenter? TextAlign.center:TextAlign.start,
+             keyboardType: isNumberOnly ? TextInputType.number : TextInputType.text,
+        inputFormatters: isNumberOnly
+            ? [FilteringTextInputFormatter.digitsOnly] // Only allows numbers
+            : [FilteringTextInputFormatter.deny(RegExp(r'\s'))], // Blocks spaces
           decoration: InputDecoration(
               suffixIcon: suffixIcon,
               fillColor: const Color(0xFFf2f2f2),

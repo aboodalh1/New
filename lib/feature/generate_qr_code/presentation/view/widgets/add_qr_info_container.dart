@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:qrreader/core/widgets/custom_snack_bar/custom_snack_bar.dart';
+import 'package:qrreader/feature/generate_qr_code/data/model/generate_qr_model.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 
 import '../../../../../constant.dart';
 import '../../manger/generate_qr_cubit.dart';
@@ -15,8 +18,10 @@ class AddQrInfoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GenerateQrCubit, GenerateQrState>(
-      builder: (context, state) {
+      return BlocConsumer<GenerateQrCubit, GenerateQrState>(
+        listener: (context, state) {
+        },
+        builder: (context, state) {
         return Container(
           height: 420,
           width: 160.w,
@@ -40,69 +45,89 @@ class AddQrInfoContainer extends StatelessWidget {
                 width: 200,
                 child: const Center(
                     child: Text(
-                      "Fill the Fields to generate QR",
-                      textAlign: TextAlign.center,
-                    )),
+                  "Fill the Fields to generate QR",
+                  textAlign: TextAlign.center,
+                )),
               ),
               const SizedBox(
                 height: 20,
               ),
               Padding(
-                padding:  EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                     child: DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            color: Color(0xffF2F2F2),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color(0xffF2F2F2),
+                            ),
                           ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            color: Color(0xffF2F2F2),
+                          focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color(0xffF2F2F2),
+                            ),
                           ),
+                          filled: true,
+                          fillColor: const Color(0xffF2F2F2),
                         ),
-                        filled: true,
-                        fillColor: const Color(0xffF2F2F2),
-                      ),
                         isExpanded: true,
-                        hint: Text('Select Customer',
-                          style: TextStyle(fontSize: 4.5.sp),),
-                        items: dropdownList.map<
-                            DropdownMenuItem<String>>(
-                              (String value) {
+                        hint: Text(
+                          'Select Customer',
+                          style: TextStyle(fontSize: 4.5.sp),
+                        ),
+                        items: dropdownList.map<DropdownMenuItem<String>>(
+                          (String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Column(
                                 children: [
                                   FittedBox(
                                     fit: BoxFit.fitHeight,
-                                    child: Text(value,style: TextStyle(
-                                      fontSize: 4.5.sp
-                                    ),),
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(fontSize: 4.5.sp),
+                                    ),
                                   ),
-                                  const Divider(thickness: 0.5,)
+                                  const Divider(
+                                    thickness: 0.5,
+                                  )
                                 ],
                               ),
                             );
                           },
-                        ).toList(), onChanged: (value) {
-                      generateQrCubit.selectedCustomer = value!;
-                    })
-                ),
+                        ).toList(),
+                        onChanged: (value) {
+                          generateQrCubit.selectedCustomer = value!;
+                        })),
               ),
               const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await generateQrCubit.generateQR(context,i: 1);
-                  if (state is GenerateQrSuccessState) {
-                    generateQrCubit
-                      .generateQrSecond(context);
+                  if (BlocProvider.of<QrsListToDownloadCubit>(context)
+                          .state
+                          .qrList
+                          .length ==
+                      12) {
+                    customSnackBar(context,
+                        "You have reached the maximum number of QRs on the page, please download the file and try again later.",
+                        color: Colors.red);
+                  } else if (generateQrCubit.selectedCustomer == "" ||
+                      generateQrCubit.selectedCustomer == null) {
+                    customSnackBar(
+                        context, "You have not selected a customer yet.",
+                        color: Colors.red);
+                  } else {
+                    await generateQrCubit.generateQR(context, i: 1);
+
+                    if (state is GenerateQrSuccessState) {
+                      generateQrCubit.generateQrSecond(context);
+                    }
                   }
                 },
                 style: ButtonStyle(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qrreader/core/widgets/tablet/tablet_custom_text.dart';
 import 'package:qrreader/feature/home_page/presentation/view/tablet_home_page.dart';
+import 'package:qrreader/feature/reports/data/repos/pdf_service.dart';
 import 'package:qrreader/feature/reports/presentation/manger/reports_cubit.dart';
 import 'package:qrreader/feature/reports/presentation/view/widgets/tablet/tablet_bag_status_card.dart';
 
@@ -144,6 +145,14 @@ class TabletReportsPage extends StatelessWidget {
       builder: (context, state) {
         ReportsCubit reportsCubit = context.read<ReportsCubit>();
         return Scaffold(
+           floatingActionButton: FloatingActionButton(
+                hoverColor: kSecondaryColor,
+                backgroundColor: kPrimaryColor,
+                child: const Icon(Icons.download, color: Colors.white),
+                onPressed: () async {
+                  await PdfReportService(reportsCubit: reportsCubit)
+                      .printCustomersPdf();
+                }),
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20),
             child: Stack(
