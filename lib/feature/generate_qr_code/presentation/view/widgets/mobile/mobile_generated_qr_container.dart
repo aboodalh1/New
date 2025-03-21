@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qrreader/feature/generate_qr_code/data/model/generate_qr_model.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 
 import '../../../../../../constant.dart';
 import '../../../manger/generate_qr_cubit.dart';
@@ -22,6 +24,14 @@ class _MobileGeneratedQrContainerState extends State<MobileGeneratedQrContainer>
   @override
   void initState() {
     super.initState();
+      BlocProvider.of<QrsListToDownloadCubit>(context)
+        .state
+        .qrList
+        .add(GenerateQrDataModel(
+            qrContent: widget.generateQrCubit.generateQrModel.data.qrContent,
+            customerName: widget.generateQrCubit.selectedCustomer,
+            // customerName: widget.generateQrCubit.generateQrModel.data.customerName,
+            bagId: widget.generateQrCubit.generateQrModel.data.bagId));
     // Future.delayed(const Duration(seconds: 1));
     // context.read<GenerateQrCubit>().printContainer(
     //     name: widget.generateQrCubit.generateQrModel.data.customerName,

@@ -30,7 +30,6 @@ class ReportsPage extends StatelessWidget {
           value: context.read<ReportsCubit>(),
           child: const DesktopReportsPage(),
         );
-
       }
     });
   }

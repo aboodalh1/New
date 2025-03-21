@@ -48,13 +48,16 @@ class DesktopLoginCard extends StatelessWidget {
                 controller: authCubit.phoneNumberController,
                 label: 'Enter phone number',
                 isSecure: false,
+                isNumberOnly: true,
               ),
             ),
             SizedBox(
               height: 20.h,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0.w,),
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.0.w,
+              ),
               child: CustomTextField(
                 isCenter: false,
                 isTablet: false,
@@ -79,7 +82,9 @@ class DesktopLoginCard extends StatelessWidget {
               height: 20.h,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0.w,),
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.0.w,
+              ),
               child: Row(
                 children: [
                   const Spacer(),
@@ -100,34 +105,40 @@ class DesktopLoginCard extends StatelessWidget {
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0.w,),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.0.w,
+                  ),
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        minimumSize: MaterialStatePropertyAll(
-                            Size(150.w, 60.h)),
+                        minimumSize:
+                            MaterialStatePropertyAll(Size(150.w, 60.h)),
                         shape: MaterialStatePropertyAll(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
                         ),
                         backgroundColor:
-                        const MaterialStatePropertyAll(Color(0xff0F663C)),
+                            const MaterialStatePropertyAll(Color(0xff0F663C)),
                       ),
                       onPressed: () {
                         authCubit.login(context);
                       },
-                      child: state is SignInLoadingState? SizedBox(
-                        width: 20.w,
-                        height: 20.h,
-                        child: LoadingIndicator(
-                          strokeWidth: 5.sp,
-                          indicatorType: Indicator.lineScale,colors: const [Colors.white],),
-                      ):const Text(
-                        'Sign In',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400),
-                      )),
+                      child: state is SignInLoadingState
+                          ? SizedBox(
+                              width: 20.w,
+                              height: 20.h,
+                              child: LoadingIndicator(
+                                strokeWidth: 5.sp,
+                                indicatorType: Indicator.lineScale,
+                                colors: const [Colors.white],
+                              ),
+                            )
+                          : const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400),
+                            )),
                 );
               },
             )

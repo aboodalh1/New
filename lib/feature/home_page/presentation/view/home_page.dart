@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qrreader/feature/customers/presentation/manger/customer_cubit.dart';
+import 'package:qrreader/feature/generate_qr_code/presentation/manger/qrs_list_to_download_cubit.dart';
 import 'package:qrreader/feature/home_page/presentation/view/desktop_home_page.dart';
 import 'package:qrreader/feature/home_page/presentation/view/mobile_home_page.dart';
 import 'package:qrreader/feature/home_page/presentation/view/tablet_home_page.dart';
@@ -21,7 +22,9 @@ class HomePage extends StatelessWidget {
         if (mediaQueryData.size.width <= 1000) {
           return const TabletHomePage();
         } else {
-          return const DesktopHomePage();
+          return BlocProvider.value(
+            value: BlocProvider.of<QrsListToDownloadCubit>(context),
+            child: const DesktopHomePage());
         }
       }),
     );
